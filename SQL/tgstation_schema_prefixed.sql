@@ -10,13 +10,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `SS13_admin`
+-- Table structure for table `HS13_admin`
 --
 
-DROP TABLE IF EXISTS `SS13_admin`;
+DROP TABLE IF EXISTS `HS13_admin`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SS13_admin` (
+CREATE TABLE `HS13_admin` (
   `ckey` varchar(32) NOT NULL,
   `rank` varchar(32) NOT NULL,
   PRIMARY KEY (`ckey`)
@@ -24,13 +24,13 @@ CREATE TABLE `SS13_admin` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `SS13_admin_log`
+-- Table structure for table `HS13_admin_log`
 --
 
-DROP TABLE IF EXISTS `SS13_admin_log`;
+DROP TABLE IF EXISTS `HS13_admin_log`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SS13_admin_log` (
+CREATE TABLE `HS13_admin_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `datetime` datetime NOT NULL,
   `round_id` int(11) unsigned NOT NULL,
@@ -44,13 +44,13 @@ CREATE TABLE `SS13_admin_log` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `SS13_admin_ranks`
+-- Table structure for table `HS13_admin_ranks`
 --
 
-DROP TABLE IF EXISTS `SS13_admin_ranks`;
+DROP TABLE IF EXISTS `HS13_admin_ranks`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SS13_admin_ranks` (
+CREATE TABLE `HS13_admin_ranks` (
   `rank` varchar(32) NOT NULL,
   `flags` smallint(5) unsigned NOT NULL,
   `exclude_flags` smallint(5) unsigned NOT NULL,
@@ -60,13 +60,13 @@ CREATE TABLE `SS13_admin_ranks` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `SS13_ban`
+-- Table structure for table `HS13_ban`
 --
 
-DROP TABLE IF EXISTS `SS13_ban`;
+DROP TABLE IF EXISTS `HS13_ban`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SS13_ban` (
+CREATE TABLE `HS13_ban` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `bantime` datetime NOT NULL,
   `server_ip` int(10) unsigned NOT NULL,
@@ -99,13 +99,13 @@ CREATE TABLE `SS13_ban` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `SS13_connection_log`
+-- Table structure for table `HS13_connection_log`
 --
 
-DROP TABLE IF EXISTS `SS13_connection_log`;
+DROP TABLE IF EXISTS `HS13_connection_log`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SS13_connection_log` (
+CREATE TABLE `HS13_connection_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `datetime` datetime DEFAULT NULL,
   `server_ip` int(10) unsigned NOT NULL,
@@ -119,13 +119,13 @@ CREATE TABLE `SS13_connection_log` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `SS13_death`
+-- Table structure for table `HS13_death`
 --
 
-DROP TABLE IF EXISTS `SS13_death`;
+DROP TABLE IF EXISTS `HS13_death`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SS13_death` (
+CREATE TABLE `HS13_death` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pod` varchar(50) NOT NULL,
   `x_coord` smallint(5) unsigned NOT NULL,
@@ -156,13 +156,13 @@ CREATE TABLE `SS13_death` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `SS13_feedback`
+-- Table structure for table `HS13_feedback`
 --
 
-DROP TABLE IF EXISTS `SS13_feedback`;
+DROP TABLE IF EXISTS `HS13_feedback`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SS13_feedback` (
+CREATE TABLE `HS13_feedback` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `datetime` datetime NOT NULL,
   `round_id` int(11) unsigned NOT NULL,
@@ -175,13 +175,13 @@ CREATE TABLE `SS13_feedback` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `SS13_ipintel`
+-- Table structure for table `HS13_ipintel`
 --
 
-DROP TABLE IF EXISTS `SS13_ipintel`;
+DROP TABLE IF EXISTS `HS13_ipintel`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SS13_ipintel` (
+CREATE TABLE `HS13_ipintel` (
   `ip` int(10) unsigned NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `intel` double NOT NULL DEFAULT '0',
@@ -191,13 +191,13 @@ CREATE TABLE `SS13_ipintel` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `SS13_legacy_population`
+-- Table structure for table `HS13_legacy_population`
 --
 
-DROP TABLE IF EXISTS `SS13_legacy_population`;
+DROP TABLE IF EXISTS `HS13_legacy_population`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SS13_legacy_population` (
+CREATE TABLE `HS13_legacy_population` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `playercount` int(11) DEFAULT NULL,
   `admincount` int(11) DEFAULT NULL,
@@ -210,13 +210,13 @@ CREATE TABLE `SS13_legacy_population` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `SS13_library`
+-- Table structure for table `HS13_library`
 --
 
-DROP TABLE IF EXISTS `SS13_library`;
+DROP TABLE IF EXISTS `HS13_library`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SS13_library` (
+CREATE TABLE `HS13_library` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `author` varchar(45) NOT NULL,
   `title` varchar(45) NOT NULL,
@@ -235,13 +235,13 @@ CREATE TABLE `SS13_library` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `SS13_messages`
+-- Table structure for table `HS13_messages`
 --
 
-DROP TABLE IF EXISTS `SS13_messages`;
+DROP TABLE IF EXISTS `HS13_messages`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SS13_messages` (
+CREATE TABLE `HS13_messages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` enum('memo','message','message sent','note','watchlist entry') NOT NULL,
   `targetckey` varchar(32) NOT NULL,
@@ -266,14 +266,14 @@ CREATE TABLE `SS13_messages` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `SS13_role_time`
+-- Table structure for table `HS13_role_time`
 --
 
-DROP TABLE IF EXISTS `SS13_role_time`;
+DROP TABLE IF EXISTS `HS13_role_time`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 
-CREATE TABLE `SS13_role_time`
+CREATE TABLE `HS13_role_time`
 ( `ckey` VARCHAR(32) NOT NULL ,
  `job` VARCHAR(32) NOT NULL ,
  `minutes` INT UNSIGNED NOT NULL,
@@ -282,14 +282,14 @@ CREATE TABLE `SS13_role_time`
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `SS13_role_time`
+-- Table structure for table `HS13_role_time`
 --
 
-DROP TABLE IF EXISTS `SS13_role_time_log`;
+DROP TABLE IF EXISTS `HS13_role_time_log`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 
-CREATE TABLE IF NOT EXISTS `SS13_role_time_log` (
+CREATE TABLE IF NOT EXISTS `HS13_role_time_log` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `ckey` varchar(32) NOT NULL,
   `job` varchar(128) NOT NULL,
@@ -303,13 +303,13 @@ CREATE TABLE IF NOT EXISTS `SS13_role_time_log` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `SS13_player`
+-- Table structure for table `HS13_player`
 --
 
-DROP TABLE IF EXISTS `SS13_player`;
+DROP TABLE IF EXISTS `HS13_player`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SS13_player` (
+CREATE TABLE `HS13_player` (
   `ckey` varchar(32) NOT NULL,
   `byond_key` varchar(32) DEFAULT NULL,
   `firstseen` datetime NOT NULL,
@@ -328,13 +328,13 @@ CREATE TABLE `SS13_player` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `SS13_poll_option`
+-- Table structure for table `HS13_poll_option`
 --
 
-DROP TABLE IF EXISTS `SS13_poll_option`;
+DROP TABLE IF EXISTS `HS13_poll_option`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SS13_poll_option` (
+CREATE TABLE `HS13_poll_option` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pollid` int(11) NOT NULL,
   `text` varchar(255) NOT NULL,
@@ -350,13 +350,13 @@ CREATE TABLE `SS13_poll_option` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `SS13_poll_question`
+-- Table structure for table `HS13_poll_question`
 --
 
-DROP TABLE IF EXISTS `SS13_poll_question`;
+DROP TABLE IF EXISTS `HS13_poll_question`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SS13_poll_question` (
+CREATE TABLE `HS13_poll_question` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `polltype` enum('OPTION','TEXT','NUMVAL','MULTICHOICE','IRV') NOT NULL,
   `starttime` datetime NOT NULL,
@@ -375,13 +375,13 @@ CREATE TABLE `SS13_poll_question` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `SS13_poll_textreply`
+-- Table structure for table `HS13_poll_textreply`
 --
 
-DROP TABLE IF EXISTS `SS13_poll_textreply`;
+DROP TABLE IF EXISTS `HS13_poll_textreply`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SS13_poll_textreply` (
+CREATE TABLE `HS13_poll_textreply` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `datetime` datetime NOT NULL,
   `pollid` int(11) NOT NULL,
@@ -395,13 +395,13 @@ CREATE TABLE `SS13_poll_textreply` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `SS13_poll_vote`
+-- Table structure for table `HS13_poll_vote`
 --
 
-DROP TABLE IF EXISTS `SS13_poll_vote`;
+DROP TABLE IF EXISTS `HS13_poll_vote`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SS13_poll_vote` (
+CREATE TABLE `HS13_poll_vote` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `datetime` datetime NOT NULL,
   `pollid` int(11) NOT NULL,
@@ -417,12 +417,12 @@ CREATE TABLE `SS13_poll_vote` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `SS13_round`
+-- Table structure for table `HS13_round`
 --
-DROP TABLE IF EXISTS `SS13_round`;
+DROP TABLE IF EXISTS `HS13_round`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SS13_round` (
+CREATE TABLE `HS13_round` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `initialize_datetime` DATETIME NOT NULL,
   `start_datetime` DATETIME NULL,
@@ -443,10 +443,10 @@ CREATE TABLE `SS13_round` (
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 --
--- Table structure for table `SS13_schema_revision`
+-- Table structure for table `HS13_schema_revision`
 --
-DROP TABLE IF EXISTS `SS13_schema_revision`;
-CREATE TABLE `SS13_schema_revision` (
+DROP TABLE IF EXISTS `HS13_schema_revision`;
+CREATE TABLE `HS13_schema_revision` (
   `major` TINYINT(3) unsigned NOT NULL,
   `minor` TINYINT(3) unsigned NOT NULL,
   `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -454,13 +454,13 @@ CREATE TABLE `SS13_schema_revision` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 DELIMITER $$
-CREATE TRIGGER `SS13_role_timeTlogupdate` AFTER UPDATE ON `SS13_role_time` FOR EACH ROW BEGIN INSERT into SS13_role_time_log (ckey, job, delta) VALUES (NEW.CKEY, NEW.job, NEW.minutes-OLD.minutes);
+CREATE TRIGGER `HS13_role_timeTlogupdate` AFTER UPDATE ON `HS13_role_time` FOR EACH ROW BEGIN INSERT into HS13_role_time_log (ckey, job, delta) VALUES (NEW.CKEY, NEW.job, NEW.minutes-OLD.minutes);
 END
 $$
-CREATE TRIGGER `SS13_role_timeTloginsert` AFTER INSERT ON `SS13_role_time` FOR EACH ROW BEGIN INSERT into SS13_role_time_log (ckey, job, delta) VALUES (NEW.ckey, NEW.job, NEW.minutes);
+CREATE TRIGGER `HS13_role_timeTloginsert` AFTER INSERT ON `HS13_role_time` FOR EACH ROW BEGIN INSERT into HS13_role_time_log (ckey, job, delta) VALUES (NEW.ckey, NEW.job, NEW.minutes);
 END
 $$
-CREATE TRIGGER `SS13_role_timeTlogdelete` AFTER DELETE ON `SS13_role_time` FOR EACH ROW BEGIN INSERT into SS13_role_time_log (ckey, job, delta) VALUES (OLD.ckey, OLD.job, 0-OLD.minutes);
+CREATE TRIGGER `HS13_role_timeTlogdelete` AFTER DELETE ON `HS13_role_time` FOR EACH ROW BEGIN INSERT into HS13_role_time_log (ckey, job, delta) VALUES (OLD.ckey, OLD.job, 0-OLD.minutes);
 END
 $$
 
