@@ -12,7 +12,7 @@ REM set REPO_URL=https://github.com/quotefox/Hyper-Station-13.git
 
 
 REM What branch of the repo to use.
-set REPO_BRANCH=master
+set REPO_BRANCH=local
 
 
 REM what map file to use. This should be the name of the dm, not dmm (and without the .dm part) (defaults to what ever is ticked in the dme)
