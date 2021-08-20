@@ -7,8 +7,8 @@ set PROJECTNAME=tgstation
 
 
 REM location of the repo.
-set REPO_URL=https://github.com/tgstation/-tg-station.git
-REM set REPO_URL=git@github.com:tgstation/-tg-station.git
+set REPO_URL=https://github.com/thakyZ/Hyper-Station-13.git
+REM set REPO_URL=https://github.com/quotefox/Hyper-Station-13.git
 
 
 REM What branch of the repo to use.
@@ -16,13 +16,13 @@ set REPO_BRANCH=master
 
 
 REM what map file to use. This should be the name of the dm, not dmm (and without the .dm part) (defaults to what ever is ticked in the dme)
-set MAPFILE=tgstation2
+set MAPFILE=boxstation
 REM set MAPFILE=metastation
 REM set MAPFILE=ministation
 
 
 REM port to use (only used to start the server in the start-server script)
-set PORT=1337
+set PORT=24024
 
 
 REM This is the channel to log updates to. Leave blank to log to the normal channel (this is done via the tgstation bot, optional)
