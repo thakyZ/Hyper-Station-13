@@ -220,3 +220,15 @@ tools/MapAtmosFixer/MapAtmosFixer/bin/*
 /config/title_screens/images/*
 !/config/title_screens/images/exclude
 config/admins.txt
+# Ignore tgstation-server folders for build setup
+/tgstation-server/*
+!/tgstation-server/bin/**/*
+!/tgstation-server/bot/**/*
+!/tgstation-server/config.bat
+!/tgstation-server/copyexclude.txt
+!/tgstation-server/disable crash dialog.reg
+!/tgstation-server/install.bat
+!/tgstation-server/README.txt
+!/tgstation-server/Start Bot.bat
+!/tgstation-server/Start Server.bat
+!/tgstation-server/Update Server.bat
