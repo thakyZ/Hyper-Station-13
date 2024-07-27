@@ -324,7 +324,7 @@
 	name = HALLOWEEN
 	begin_day = 28
 	begin_month = OCTOBER
-	end_day = 2
+	end_day = 1
 	end_month = NOVEMBER
 
 /datum/holiday/halloween/greet()
@@ -333,15 +333,12 @@
 /datum/holiday/halloween/getStationPrefix()
 	return pick("Bone-Rattling","Mr. Bones' Own","2SPOOKY","Spooky","Scary","Skeletons")
 
-/datum/holiday/jacqueen //Subset of halloween
-	name = "jacqueen"
+/datum/holiday/bartholomew //Subset of halloween
+	name = "Bartholomew"
 	begin_day = 27
 	begin_month = OCTOBER
-	end_day = 2
+	end_day = 1
 	end_month = NOVEMBER
-
-/datum/holiday/jacqueen/greet()
-	return "Jacqueline the great Pumpqueen has come to visit!"
 
 /datum/holiday/vegan
 	name = "Vegan Day"
@@ -451,7 +448,7 @@ Since Ramadan is an entire month that lasts 29.5 days on average, the start and 
 	return FALSE
 
 /datum/holiday/ramadan/getStationPrefix()
-	return pick("Harm","Halaal","Jihad","Muslim")
+	return pick("Fasting","Enlightenment","Prayer","Muslim")
 
 /datum/holiday/ramadan/end
 	name = "End of Ramadan"

@@ -24,7 +24,7 @@ GLOBAL_LIST_INIT(turfs_without_ground, typecacheof(list(
 	/turf/open/chasm,
 	/turf/open/lava,
 	/turf/open/water,
-	/turf/open/openspace
+	/turf/open/transparent/openspace
 	)))
 
 #define isgroundlessturf(A) (is_type_in_typecache(A, GLOB.turfs_without_ground))
@@ -53,10 +53,14 @@ GLOBAL_LIST_INIT(turfs_without_ground, typecacheof(list(
 
 #define isplatingturf(A) (istype(A, /turf/open/floor/plating))
 
+#define istransparentturf(A) (istype(A, /turf/open/transparent))
+
 //Mobs
 #define isliving(A) (istype(A, /mob/living))
 
 #define isbrain(A) (istype(A, /mob/living/brain))
+
+#define isnoncarbon(A) (isliving(A) && !iscarbon(A))
 
 //Carbon mobs
 #define iscarbon(A) (istype(A, /mob/living/carbon))
@@ -252,6 +256,10 @@ GLOBAL_LIST_INIT(pointed_types, typecacheof(list(
 #define is_pointed(W) (is_type_in_typecache(W, GLOB.pointed_types))
 
 #define isbodypart(A) (istype(A, /obj/item/bodypart))
+
+#define isprojectile(A) (istype(A, /obj/item/projectile))
+
+#define isgun(A) (istype(A, /obj/item/gun))
 
 //Assemblies
 #define isassembly(O) (istype(O, /obj/item/assembly))

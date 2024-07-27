@@ -34,6 +34,9 @@
 	var/lip_color = "white"
 	//If the head is a special sprite
 	var/custom_head
+	
+	// if head has mouth; may depend on species
+	var/mouth = TRUE
 
 /obj/item/bodypart/head/can_dismember(obj/item/I)
 	if(!((owner.stat == DEAD) || owner.InFullCritical()))
@@ -172,9 +175,14 @@
 
 		// lipstick
 		if(lip_style)
-			var/image/lips_overlay = image('icons/mob/human_face.dmi', "lips_[lip_style]", -BODY_LAYER, SOUTH)
-			lips_overlay.color = lip_color
-			. += lips_overlay
+			if (species_id == "human")
+				var/image/lips_overlay = image('icons/mob/human_face.dmi', "lips_[lip_style]", -BODY_LAYER, SOUTH)
+				lips_overlay.color = lip_color
+				. += lips_overlay
+			else //for animal species, because they have slightly bigger heads.
+				var/image/lips_overlay = image('icons/mob/human_face.dmi', "lips_[lip_style]_mam", -BODY_LAYER, SOUTH)
+				lips_overlay.color = lip_color
+				. += lips_overlay
 
 		// eyes
 		var/image/eyes_overlay = image('icons/mob/human_face.dmi', "eyes", -BODY_LAYER, SOUTH)

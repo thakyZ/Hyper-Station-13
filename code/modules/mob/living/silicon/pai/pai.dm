@@ -61,7 +61,7 @@
 	var/dynamic_chassis
 	var/dynamic_chassis_sit = FALSE			//whether we're sitting instead of resting spritewise
 	var/dynamic_chassis_bellyup = FALSE		//whether we're lying down bellyup
-	var/list/possible_chassis = list("cat" = TRUE, "mouse" = TRUE, "monkey" = TRUE, "corgi" = FALSE, "fox" = FALSE, "repairbot" = TRUE, "rabbit" = TRUE, "operator" = TRUE)		//assoc value is whether it can be picked up.
+	var/list/possible_chassis = list("cat" = TRUE, "mouse" = TRUE, "monkey" = TRUE, "corgi" = FALSE, "fox" = FALSE, "repairbot" = TRUE, "rabbit" = TRUE)		//assoc value is whether it can be picked up.
 	var/list/dynamic_chassis_icons		//ditto.
 	var/list/chassis_pixel_offsets_x	//stupid dogborgs
 
@@ -163,14 +163,15 @@
 	return TRUE
 
 /mob/living/silicon/pai/Login()
-	..()
+	. = ..()
+	if(!. || !client)
+		return FALSE
 	usr << browse_rsc('html/paigrid.png')			// Go ahead and cache the interface resources as early as possible
-	if(client)
-		client.perspective = EYE_PERSPECTIVE
-		if(holoform)
-			client.eye = src
-		else
-			client.eye = card
+	client.perspective = EYE_PERSPECTIVE
+	if(holoform)
+		client.eye = src
+	else
+		client.eye = card
 
 /mob/living/silicon/pai/get_status_tab_items()
 	. += ..()

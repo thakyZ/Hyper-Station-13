@@ -5,7 +5,7 @@
 //	You do not need to raise this if you are adding new values that have sane defaults.
 //	Only raise this value when changing the meaning/format/name/layout of an existing value
 //	where you would want the updater procs below to run
-#define SAVEFILE_VERSION_MAX	24
+#define SAVEFILE_VERSION_MAX	25
 
 /*
 SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Carn
@@ -116,6 +116,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["radiosounds"]		>> radiosounds
 	S["max_chat_length"]	>> max_chat_length
 	S["see_chat_non_mob"] 	>> see_chat_non_mob
+	S["see_rc_emotes"] 		>> see_rc_emotes
 
 
 	S["parallax"]			>> parallax
@@ -137,7 +138,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["widescreenpref"]		>> widescreenpref
 	S["autostand"]			>> autostand
 	S["cit_toggles"]		>> cit_toggles
-	S["lewdchem"]			>> lewdchem
 
 	//Hyper code
 	S["noncon"]             >> noncon
@@ -163,6 +163,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	radiosounds		= sanitize_integer(radiosounds, 0, 1, initial(radiosounds))
 	max_chat_length = sanitize_integer(max_chat_length, 1, CHAT_MESSAGE_MAX_LENGTH, initial(max_chat_length))
 	see_chat_non_mob	= sanitize_integer(see_chat_non_mob, 0, 1, initial(see_chat_non_mob))
+	see_rc_emotes	= sanitize_integer(see_rc_emotes, FALSE, TRUE, initial(see_rc_emotes))
 	tgui_fancy		= sanitize_integer(tgui_fancy, 0, 1, initial(tgui_fancy))
 	tgui_lock		= sanitize_integer(tgui_lock, 0, 1, initial(tgui_lock))
 	buttons_locked	= sanitize_integer(buttons_locked, 0, 1, initial(buttons_locked))
@@ -262,7 +263,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["widescreenpref"], widescreenpref)
 	WRITE_FILE(S["autostand"], autostand)
 	WRITE_FILE(S["cit_toggles"], cit_toggles)
-	WRITE_FILE(S["lewdchem"], lewdchem)
 
 	//Hyper
 	WRITE_FILE(S["noncon"], noncon)
@@ -327,6 +327,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["skin_tone"]			>> skin_tone
 	S["hair_style_name"]	>> hair_style
 	S["facial_style_name"]	>> facial_hair_style
+	S["grad_style"]			>> grad_style
+	S["grad_color"]			>> grad_color
 	S["underwear"]			>> underwear
 	S["undie_color"]		>> undie_color
 	S["undershirt"]			>> undershirt
@@ -353,6 +355,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["feature_human_tail"]				>> features["tail_human"]
 	S["feature_human_ears"]				>> features["ears"]
 	S["feature_deco_wings"]				>> features["deco_wings"]
+	S["feature_front_genitals_over_hair"] >> features["front_genitals_over_hair"]
 
 	S["hide_ckey"]						>> hide_ckey //saved per-character
 
@@ -378,8 +381,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["job_engsec_low"]		>> job_engsec_low
 
 	//Antags
-	if(!(toggles & ANTAG_SYNC_WITH_CHARS))
-		S["special_roles"]		>> be_special
+	S["special_roles"]		>> be_special
 
 	//Quirks
 	S["all_quirks"]			>> all_quirks
@@ -410,6 +412,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["feature_cock_color"]				>> features["cock_color"]
 	S["feature_cock_length"]			>> features["cock_length"]
 	S["feature_cock_girth"]				>> features["cock_girth"]
+	S["feature_cock_girth_ratio"]		>> features["cock_girth_ratio"]
 	S["feature_has_sheath"]				>> features["sheath_color"]
 	//balls features
 	S["feature_has_balls"]				>> features["has_balls"]
@@ -442,7 +445,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["feature_butt_size"]				>> features["butt_size"]
 	S["feature_butt_color"]				>> features["butt_color"]
 	S["feature_has_anus"]				>> features["has_anus"]
-
+	//lips
+	S["feature_lips_shape"]				>> features["lips_shape"]
+	S["feature_has_lips"]				>> features["has_lips"]
+	S["feature_lips_color"]				>> features["lips_color"]
 	//flavor text
 	//Let's make our players NOT cry desperately as we wipe their savefiles of their special snowflake texts:
 	if((S["flavor_text"] != "") && (S["flavor_text"] != null) && S["flavor_text"]) //If old text isn't null and isn't "" but still exists.
@@ -454,13 +460,21 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	else //We have no old flavortext, default to new
 		S["feature_flavor_text"]		>> features["flavor_text"]
 
-	S["feature_silicon_flavor_text"]	>> features["silicon_flavor_text"]
+
+	if((S["silicon_flavor_text"] != "") && (S["silicon_flavor_text"] != null) && S["silicon_flavor_text"])
+		S["silicon_flavor_text"]				>> features["silicon_flavor_text"]
+
+		WRITE_FILE(S["feature_silicon_flavor_text"], features["silicon_flavor_text"]) //Save it in our new type of flavor-text
+		WRITE_FILE(S["silicon_flavor_text"], "") //Remove old flavortext, completing the cut-and-paste into the new format.
+	else
+		S["feature_silicon_flavor_text"]		>> features["silicon_flavor_text"]
+
+
 	if((S["ooc_text"] != "") && (S["ooc_text"] != null) && S["ooc_text"])
 		S["ooc_text"]				>> features["ooc_text"]
 
 		WRITE_FILE(S["feature_ooc_text"], features["ooc_text"]) //Save it in our new type of flavor-text
 		WRITE_FILE(S["ooc_text"], "") //Remove old flavortext, completing the cut-and-paste into the new format.
-
 	else
 		S["feature_ooc_text"]		>> features["ooc_text"]
 
@@ -487,7 +501,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if(!features["wing_color"] || features["wing_color"] == "#000")
 		features["wing_color"] = "FFFFFF"
 
+	if(!features["lip_color"])
+		features["lip_color"] = "FFFFFF"
 
+	if(!features["lips_shape"])
+		features["lips_shape"] = "Average"
 
 	nameless = sanitize_integer(nameless, 0, 1, initial(nameless))
 	be_random_name	= sanitize_integer(be_random_name, 0, 1, initial(be_random_name))
@@ -508,6 +526,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	age				= sanitize_integer(age, AGE_MIN, AGE_MAX, initial(age))
 	hair_color			= sanitize_hexcolor(hair_color, 3, 0)
 	facial_hair_color			= sanitize_hexcolor(facial_hair_color, 3, 0)
+	grad_style						= sanitize_inlist(grad_style, GLOB.hair_gradients_list)
+	grad_color						= sanitize_hexcolor(grad_color, 6, FALSE)
 	eye_color		= sanitize_hexcolor(eye_color, 3, 0)
 	skin_tone		= sanitize_inlist(skin_tone, GLOB.skin_tones)
 	wing_color		= sanitize_hexcolor(wing_color, 3, FALSE, "#FFFFFF")
@@ -549,7 +569,23 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	medical_records					= copytext(medical_records, 1, MAX_FLAVOR_LEN)
 	all_quirks = SANITIZE_LIST(all_quirks)
 
+	for(var/V in all_quirks) // quirk migration
+		switch(V)
+			if("Acute hepatic pharmacokinesis")
+				DISABLE_BITFIELD(cit_toggles, PENIS_ENLARGEMENT)
+				DISABLE_BITFIELD(cit_toggles, BREAST_ENLARGEMENT)
+				ENABLE_BITFIELD(cit_toggles,FORCED_FEM)
+				ENABLE_BITFIELD(cit_toggles,FORCED_MASC)
+				all_quirks -= V
+			if("Crocin Immunity")
+				ENABLE_BITFIELD(cit_toggles,NO_APHRO)
+				all_quirks -= V
+			if("Buns of Steel")
+				ENABLE_BITFIELD(cit_toggles,NO_ASS_SLAP)
+				all_quirks -= V
+
 	cit_character_pref_load(S)
+	hyper_character_pref_load(S)
 
 	return 1
 
@@ -584,6 +620,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["skin_tone"]			, skin_tone)
 	WRITE_FILE(S["hair_style_name"]	, hair_style)
 	WRITE_FILE(S["facial_style_name"]	, facial_hair_style)
+	WRITE_FILE(S["grad_style"]				, grad_style)
+	WRITE_FILE(S["grad_color"]				, grad_color)
 	WRITE_FILE(S["underwear"]			, underwear)
 	WRITE_FILE(S["body_size"]			, body_size)
 	WRITE_FILE(S["undie_color"]			, undie_color)
@@ -612,6 +650,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["feature_moth_fluff"]			, features["moth_fluff"])
 	WRITE_FILE(S["feature_moth_markings"]		, features["moth_markings"])
 	WRITE_FILE(S["feature_deco_wings"]				, features["deco_wings"])
+	WRITE_FILE(S["feature_front_genitals_over_hair"], features["front_genitals_over_hair"])
 
 	//Custom names
 	for(var/custom_name_id in GLOB.preferences_custom_names)
@@ -637,12 +676,12 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["medical_records"]		, medical_records)
 
 	//Misc.
-	if(!(toggles & ANTAG_SYNC_WITH_CHARS))
-		WRITE_FILE(S["special_roles"]		, be_special)		//Preferences don't load every character change
+	WRITE_FILE(S["special_roles"]		, be_special)		//Preferences don't load every character change
 	WRITE_FILE(S["hide_ckey"]			, hide_ckey)
 	WRITE_FILE(S["all_quirks"]			, all_quirks)
 
 	cit_character_pref_save(S)
+	hyper_character_pref_save(S)
 
 	return 1
 

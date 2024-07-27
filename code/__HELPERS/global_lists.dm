@@ -54,6 +54,14 @@
 
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/vagina, GLOB.vagina_shapes_list)
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/breasts, GLOB.breasts_shapes_list)
+
+	// hyper: cosmetic parts
+	init_cosmetic_parts(/datum/cosmetic_part/head, GLOB.cosmetic_heads)
+	init_cosmetic_parts(/datum/cosmetic_part/chest, GLOB.cosmetic_chests)
+	init_cosmetic_parts(/datum/cosmetic_part/arms, GLOB.cosmetic_arms)
+	init_cosmetic_parts(/datum/cosmetic_part/legs, GLOB.cosmetic_legs)
+	// end cosmetic parts
+
 	GLOB.breasts_size_list = list ("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o") //We need the list to choose from initialized, but it's no longer a sprite_accessory thing.
 	GLOB.genital_fluids_list = list ("Milk", "Water", "Semen", "Femcum", "Honey")
 	GLOB.gentlemans_organ_names = list("phallus", "willy", "dick", "prick", "member", "tool", "gentleman's organ", "cock", "wang", "knob", "dong", "joystick", "pecker", "johnson", "weenie", "tadger", "schlong", "thirsty ferret", "baloney pony", "schlanger")
@@ -85,6 +93,13 @@
 	for(var/path in subtypesof(/datum/emote))
 		var/datum/emote/E = new path()
 		E.emote_list[E.key] = E
+
+
+
+	// Hair Gradients - Initialise all /datum/sprite_accessory/hair_gradient into an list indexed by gradient-style name
+	for(var/path in subtypesof(/datum/sprite_accessory/hair_gradient))
+		var/datum/sprite_accessory/hair_gradient/H = new path()
+		GLOB.hair_gradients_list[H.name] = H
 
 	init_subtypes(/datum/crafting_recipe, GLOB.crafting_recipes)
 

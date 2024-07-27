@@ -256,6 +256,45 @@
 	tastes = list("fudge" = 1)
 	foodtype = JUNKFOOD | SUGAR
 
+/obj/item/reagent_containers/food/snacks/choccogun
+	name = "golden gun"
+	desc = "It's a golden gun! Probably will instantly kill who ever is hit."
+	icon_state = "pyritegun"
+	w_class = WEIGHT_CLASS_SMALL
+	attack_verb = list("pistol whipped")
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = 5, /datum/reagent/consumable/sugar = 5, /datum/reagent/iron = 1)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 15, /datum/reagent/consumable/coco = 5)
+	filling_color = "#A0522D"
+	tastes = list("fudge" = 1, "metal" = 1)
+	bitesize = 0.1
+	foodtype = JUNKFOOD | SUGAR
+	
+	var is_wrapped = 1
+
+/obj/item/reagent_containers/food/snacks/choccogun/afterattack(user)
+	if (is_wrapped == 1)
+		to_chat(user, "<span class='danger'>*click*</span>")
+		playsound(src, "gun_dry_fire", 30, 1)
+	else //no more clicking chocolate for you. <3
+		return
+
+/obj/item/reagent_containers/food/snacks/choccogun/attack_self(mob/user)
+	if (is_wrapped == 1)
+		to_chat(user, "You look at the gun and find it's made of chocolate, unwrapping it.")
+		
+		name = "chocolate gun"
+		desc = "This explains why it wasn't firing at all.."
+		icon_state = "choccogun"
+		bonus_reagents = list(/datum/reagent/consumable/nutriment = 5, /datum/reagent/consumable/sugar = 5, /datum/reagent/gold = 1)
+		list_reagents = list(/datum/reagent/consumable/nutriment = 15, /datum/reagent/consumable/coco = 5)
+		filling_color = "#A0522D"
+		tastes = list("fudge" = 1)
+		foodtype = JUNKFOOD | SUGAR
+	
+		is_wrapped = 0
+	else
+		return
+
 /obj/item/reagent_containers/food/snacks/chocoorange
 	name = "chocolate orange"
 	desc = "A festive chocolate orange."
@@ -625,3 +664,42 @@
 	tastes = list("fried corn" = 1)
 	foodtype = JUNKFOOD | FRIED
 	dunkable = TRUE
+
+/obj/item/reagent_containers/food/snacks/marshmallow
+	name = "marshmallow"
+	desc = "A marshmallow filled with fluffy marshmallow fluff."
+	icon_state = "marshmallow"
+	list_reagents = list(/datum/reagent/consumable/sugar = 5, /datum/reagent/consumable/nutriment = 2)
+	filling_color = "#fafafa"
+	w_class = WEIGHT_CLASS_TINY
+	tastes = list("marshmallow" = 2)
+	foodtype = SUGAR | JUNKFOOD
+
+/obj/item/reagent_containers/food/snacks/marshmallow/attackby(obj/item/I, mob/user)
+	switch (I.get_temperature())
+		if (355 to 1500)
+			if (prob(30))
+				burnmallow()
+		if (1500 to 2000)
+			if (prob(50))
+				burnmallow()
+			else
+				burnmallow(TRUE)
+		if (2000 to 3000)
+			if (prob(10))
+				burnmallow()
+			else
+				burnmallow(TRUE)
+		if (3000 to INFINITY)
+			burnmallow(TRUE)
+	..()
+
+/obj/item/reagent_containers/food/snacks/marshmallow/proc/burnmallow(reallyburned = FALSE)
+	if (reallyburned && icon_state != "marshmallowrburned")
+		icon_state = "marshmallowrburned"
+		desc = "[initial(desc)] It looks very burned."
+		tastes = list("charcoal" = 2)
+	else if (icon_state != "marshmallowrburned")
+		icon_state = "marshmallowburned"
+		desc = "[initial(desc)] It looks just right for eating!"
+		tastes = list("marshmallow" = 1, "cream" = 1) 

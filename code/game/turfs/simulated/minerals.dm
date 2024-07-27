@@ -221,6 +221,22 @@
 		/turf/closed/mineral/iron/volcanic = 95)
 
 
+//For spacehermit stuff
+
+
+/turf/closed/mineral/random/spacehermit
+	icon_state = "rock"
+	turf_type = /turf/open/floor/plating/asteroid/spacehermit
+	baseturfs = /turf/open/floor/plating/asteroid/spacehermit
+	initial_gas_mix = OPENTURF_DEFAULT_ATMOS
+	defer_change = 1
+	mineralChance = 6
+	mineralSpawnChanceList = list(
+		/turf/closed/mineral/uranium = 2, /turf/closed/mineral/diamond = 1, /turf/closed/mineral/gold = 4, /turf/closed/mineral/titanium = 4,
+		/turf/closed/mineral/silver = 6, /turf/closed/mineral/plasma = 15, /turf/closed/mineral/iron = 40,
+		/turf/closed/mineral/gibtonite = 2, /turf/closed/mineral/bscrystal = 1)
+
+//end of spacehermit stuff
 
 /turf/closed/mineral/iron
 	mineralType = /obj/item/stack/ore/iron
@@ -505,10 +521,10 @@
 		var/obj/item/twohanded/required/gibtonite/G = new (src)
 		if(det_time <= 0)
 			G.quality = 3
-			G.icon_state = "Gibtonite ore 3"
+			G.icon_state = "ore-gibtonite_3"
 		if(det_time >= 1 && det_time <= 2)
 			G.quality = 2
-			G.icon_state = "Gibtonite ore 2"
+			G.icon_state = "ore-gibtonite_2"
 
 	var/flags = NONE
 	if(defer_change)
@@ -523,15 +539,3 @@
 	baseturfs = /turf/open/floor/plating/asteroid/basalt/lava_land_surface
 	initial_gas_mix = LAVALAND_DEFAULT_ATMOS
 	defer_change = 1
-
-/turf/closed/mineral/layenia
-	name = "Crimson rock"
-	icon = 'icons/turf/mining.dmi'
-	smooth_icon = 'icons/turf/layeniarocks.dmi'
-	icon_state = "layenia"
-	smooth = SMOOTH_MORE|SMOOTH_BORDER
-	canSmoothWith = null
-	baseturfs = /turf/open/floor/plating/asteroid/layenia
-	initial_gas_mix = FROZEN_ATMOS
-	environment_type = "layenia"
-	turf_type = /turf/open/floor/plating/asteroid/layenia

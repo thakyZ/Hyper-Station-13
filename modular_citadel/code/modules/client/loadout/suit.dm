@@ -250,7 +250,23 @@
 	category = SLOT_WEAR_SUIT
 	path =	/obj/item/clothing/suit/nemes
 
+/datum/gear/uniform/labcoat
+	name = "Labcoat"
+	category = SLOT_WEAR_SUIT
+	path = /obj/item/clothing/suit/toggle/labcoat
+
 /datum/gear/fluffcoat
 	name = "Winter labcoat"
 	category = SLOT_WEAR_SUIT
 	path = /obj/item/clothing/suit/toggle/labcoat/formallab
+
+/datum/gear/uniform/bathrobe
+	name = "Bathrobe"
+	category = SLOT_WEAR_SUIT
+	path = /obj/item/clothing/suit/bathrobe
+
+/datum/gear/uniform/threepwoodjacket
+	name = "threepwood's jacket"
+	category = SLOT_WEAR_SUIT
+	path = /obj/item/clothing/suit/threepwoodjacket
+

@@ -29,6 +29,46 @@
 	resistance_flags = NONE
 
 /*
+ * Posshim's Corpus atire
+ */
+/obj/item/clothing/suit/hooded/corpus/
+	name = "Standard Voidsuit"
+	desc = "Standard issue voidsuit in the name of Grofit!"
+	icon_state = "corpus"
+	item_state = "armor"
+	body_parts_covered = CHEST|GROIN|LEGS|ARMS|FEET|HANDS
+	hoodtype = /obj/item/clothing/head/hooded/corpus
+	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT //"Hide shoes" but digi shoes dont get hidden, too bad!
+	min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
+	mutantrace_variation = NO_MUTANTRACE_VARIATION //There is no need for a digi variant, it's a costume
+
+/obj/item/clothing/suit/hooded/corpus/s //sec
+	name = "Enforcer Voidsuit"
+	desc = "Delux issue grofit voidsuit. Let the middle class know You're in charge."
+	icon_state = "corpuss"
+	hoodtype = /obj/item/clothing/head/hooded/corpus/s //Enjoy this nice red outfit Kinaris! There is NO NEED for a pink one! xoxo -VivI Fanteriso
+
+/obj/item/clothing/suit/hooded/corpus/c //command
+	name = "Commander Voidsuit"
+	desc = "Premium issue correctional worker attire. Grease the gears of production."
+	icon_state = "corpusc"
+	hoodtype = /obj/item/clothing/head/hooded/corpus/c
+
+/obj/item/clothing/head/hooded/corpus
+	name = "Voidsuit helmet"
+	desc = "galvanized reinforced helm to protect against the elements"
+	icon_state = "corpus"
+	body_parts_covered = HEAD
+	flags_inv = HIDEHAIR|HIDEEARS|HIDEFACIALHAIR|HIDEFACE|HIDEMASK|HIDESNOUT|HIDENECK //hide your ugly face with this one simple trick!
+	min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
+
+/obj/item/clothing/head/hooded/corpus/s //sec
+	icon_state = "corpuss"
+
+/obj/item/clothing/head/hooded/corpus/c //command
+	icon_state = "corpusc"
+
+/*
  * Costume
  */
 /obj/item/clothing/suit/hooded/flashsuit
@@ -216,25 +256,26 @@
 
 /obj/item/clothing/suit/poncho
 	name = "poncho"
-	desc = "Your classic, non-racist poncho."
+	desc = "Your classic poncho."
 	icon_state = "classicponcho"
 	item_state = "classicponcho"
 
 /obj/item/clothing/suit/poncho/green
 	name = "green poncho"
-	desc = "Your classic, non-racist poncho. This one is green."
+	desc = "Your classic poncho. This one is green."
 	icon_state = "greenponcho"
 	item_state = "greenponcho"
 
 /obj/item/clothing/suit/poncho/red
 	name = "red poncho"
-	desc = "Your classic, non-racist poncho. This one is red."
+	desc = "Your classic poncho. This one is red."
 	icon_state = "redponcho"
 	item_state = "redponcho"
 
+//why the fuck does this exist
 /obj/item/clothing/suit/poncho/ponchoshame
 	name = "poncho of shame"
-	desc = "Forced to live on your shameful acting as a fake Mexican, you and your poncho have grown inseparable. Literally."
+	desc = "A poncho of shame."
 	icon_state = "ponchoshame"
 	item_state = "ponchoshame"
 
@@ -1006,3 +1047,13 @@
 	icon_state = "labcoat_formal"
 	item_state = "labcoat_formal"
 	body_parts_covered = CHEST|ARMS
+
+//bathrobes ported from Citadel
+
+/obj/item/clothing/suit/bathrobe
+	name = "bathrobe"
+	desc = "A blue bathrobe."
+	icon_state = "bathrobe"
+	item_state = "bathrobe"
+	body_parts_covered = CHEST|GROIN|ARMS
+

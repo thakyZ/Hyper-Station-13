@@ -364,6 +364,13 @@
 	tastes = list("muffin" = 3, "spookiness" = 1)
 	foodtype = GRAIN | FRUIT | SUGAR | BREAKFAST
 
+/obj/item/reagent_containers/food/snacks/muffin/poppy
+	name = "poppy muffin"
+	icon_state = "poppymuffin"
+	desc = "A classic lemon poppy seed muffin. Do not consume prior to drug testing."
+	tastes = list("muffin" = 3, "lemon" = 1, "seeds" = 1)
+	foodtype = GRAIN | SUGAR | BREAKFAST
+
 /obj/item/reagent_containers/food/snacks/chawanmushi
 	name = "chawanmushi"
 	desc = "A legendary egg custard that makes friends out of enemies. Probably too hot for a cat to eat."
@@ -453,6 +460,120 @@
 	cooked_type = null
 	tastes = list("meat" = 2, "dough" = 2, "laziness" = 1)
 	foodtype = GRAIN | ANTITOXIC
+
+/obj/item/reagent_containers/food/snacks/donkpocket/taco
+	name = "\improper Taco-pocket"
+	desc = "Es hora de adentrarse en el espacio de bolsillo más salvaje jamás conocido. ¡jajaja!"
+	icon_state = "donkpockettaco"
+	list_reagents = list(/datum/reagent/consumable/nutriment = 4, /datum/reagent/consumable/capsaicin = 2)
+	cooked_type = /obj/item/reagent_containers/food/snacks/donkpocket/warm/taco
+	filling_color = "#CD853F"
+	tastes = list("meat" = 2, "dough" = 2, "spice" = 2, "vegetables" = 2, "cheese" = 2)
+	foodtype = GRAIN | VEGETABLES | MEAT
+
+/obj/item/reagent_containers/food/snacks/donkpocket/warm/taco
+	name = "warm Taco-pocket"
+	desc = "Es hora de adentrarse en el espacio de bolsillo más salvaje jamás conocido. ¡jajaja!"
+	icon_state = "donkpockettaco"
+	bonus_reagents = list(/datum/reagent/medicine/omnizine = 1)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 4, /datum/reagent/consumable/capsaicin = 2)
+	tastes = list("meat" = 2, "dough" = 2, "spice" = 2, "vegetables" = 2, "cheese" = 2)
+	foodtype = GRAIN | VEGETABLES | MEAT
+
+/obj/item/reagent_containers/food/snacks/donkpocket/plasma
+	name = "\improper Poison-pocket"
+	desc = "NOTE: WARNING. For slime species consumption only. Call ###-##-### if injested"
+	icon_state = "donkpocketplasma"
+	list_reagents = list(/datum/reagent/toxin/carpotoxin = 2, /datum/reagent/toxin/plasma = 2, /datum/reagent/fuel = 2)
+	cooked_type = /obj/item/reagent_containers/food/snacks/donkpocket/warm/plasma
+	filling_color = "#CD853F"
+	tastes = list("meat" = 2, "dough" = 2, "poison" = 2, "welding fuel" = 2)
+	foodtype = GRAIN | TOXIC | MEAT
+
+/obj/item/reagent_containers/food/snacks/donkpocket/warm/plasma
+	name = "warm Poison-pocket"
+	desc = "NOTE: WARNING. For slime species consumption only. Call ###-##-### if injested"
+	icon_state = "donkpocketplasma"
+	bonus_reagents = list(/datum/reagent/toxin/carpotoxin = 2, /datum/reagent/toxin/plasma = 2, /datum/reagent/fuel = 2)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 4)
+	tastes = list("meat" = 2, "dough" = 2, "poison" = 2, "welding fuel" = 2)
+	foodtype = GRAIN | TOXIC | MEAT
+
+/obj/item/reagent_containers/food/snacks/donkpocket/breakfast
+	name = "\improper Breakfast-pocket"
+	desc = "Now for all you early morning Joes!."
+	icon_state = "donkpocketbreakfast"
+	list_reagents = list(/datum/reagent/consumable/nutriment = 4)
+	cooked_type = /obj/item/reagent_containers/food/snacks/donkpocket/warm/breakfast
+	filling_color = "#CD853F"
+	tastes = list("meat" = 2, "dough" = 2, "eggs" =2, "bacon" =2)
+	foodtype = GRAIN | DAIRY | MEAT | BREAKFAST
+
+/obj/item/reagent_containers/food/snacks/donkpocket/warm/breakfast //IT'S BEEN ELEVEN FUCKING HOURS I HATE BYOND I HATE BYOND I HATE BEYOND!!!
+	name = "warm Breakfast-pocket"
+	desc = "Now for all you early morning Joes!."
+	icon_state = "donkpocketbreakfast"
+	bonus_reagents = list(/datum/reagent/medicine/omnizine = 1)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 4)
+	tastes = list("meat" = 2, "dough" = 2, "eggs" = 2, "bacon" = 2)
+	foodtype = GRAIN | DAIRY | MEAT | BREAKFAST | ANTITOXIC
+
+/obj/item/reagent_containers/food/snacks/donkpocket/moth
+	name = "\improper Moth-pocket"
+	desc = "Donk Corp is now reaching out to all species! Dig in moths one and all."
+	icon_state = "donkpocketmoth"
+	list_reagents = list(/datum/reagent/consumable/nutriment = 4)
+	cooked_type = /obj/item/reagent_containers/food/snacks/donkpocket/warm/moth
+	filling_color = "#CD853F"
+	tastes = list("lint" = 2, "dough" = 2, "felt" = 2)
+	foodtype = GRAIN | DAIRY | CLOTH
+
+/obj/item/reagent_containers/food/snacks/donkpocket/warm/moth
+	name = "warm Moth-pocket"
+	desc = "Donk Corp is now reaching out to all species! Dig in moths one and all."
+	icon_state = "donkpocketmoth"
+	bonus_reagents = list(/datum/reagent/medicine/omnizine = 1)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 4)
+	tastes = list("lint" = 2, "dough" = 2, "felt" = 2)
+	foodtype = GRAIN | DAIRY | CLOTH
+
+/obj/item/reagent_containers/food/snacks/donkpocket/vegan
+	name = "\improper Vegan-pocket"
+	desc = "For all you Animal Rights Consortium members out there!."
+	icon_state = "donkpocketvegan"
+	list_reagents = list(/datum/reagent/consumable/nutriment = 2)
+	cooked_type = /obj/item/reagent_containers/food/snacks/donkpocket/warm/vegan
+	filling_color = "#CD853F"
+	tastes = list("vegetables" = 2, "dough" = 2)
+	foodtype = GRAIN | VEGETABLES
+
+/obj/item/reagent_containers/food/snacks/donkpocket/warm/vegan
+	name = "warm Vegan-pocket"
+	desc = "For all you Animal Rights Consortium members out there!."
+	icon_state = "donkpocketvegan"
+	bonus_reagents = list(/datum/reagent/medicine/omnizine = 1)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 3)
+	tastes = list("vegetables" = 2, "dough" = 2)
+	foodtype = GRAIN | VEGETABLES
+
+/obj/item/reagent_containers/food/snacks/donkpocket/sm
+	name = "\improper Super-pocket"
+	desc = "You're probably not in a good spot if you're laying eyes on this."
+	icon_state = "donkpocketsm"
+	list_reagents = list(/datum/reagent/consumable/nutriment = 99)
+	cooked_type = /obj/item/reagent_containers/food/snacks/donkpocket/warm/sm
+	filling_color = "#CD853F"
+	tastes = list("white-noise" = 2)
+	foodtype = TOXIC
+
+/obj/item/reagent_containers/food/snacks/donkpocket/warm/sm
+	name = "warm Super-pocket"
+	desc = "You're probably not in a good spot if you're laying eyes on this."
+	icon_state = "donkpocketsm"
+	bonus_reagents = list(/datum/reagent/medicine/omnizine = 1)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 99)
+	tastes = list("white-noise" = 2)
+	foodtype = TOXIC
 
 /obj/item/reagent_containers/food/snacks/dankpocket
 	name = "\improper Dank-pocket"
@@ -547,7 +668,7 @@
 	cooked_type = /obj/item/reagent_containers/food/snacks/donkpocket/warm/berry
 	filling_color = "#CD853F"
 	tastes = list("dough" = 2, "jam" = 2)
-	foodtype = GRAIN
+	foodtype = GRAIN | SUGAR
 
 /obj/item/reagent_containers/food/snacks/donkpocket/warm/berry
 	name = "warm Berry-pocket"
@@ -556,7 +677,7 @@
 	bonus_reagents = list(/datum/reagent/medicine/omnizine = 1)
 	list_reagents = list(/datum/reagent/consumable/nutriment = 4, /datum/reagent/medicine/omnizine = 1, /datum/reagent/consumable/berryjuice = 3)
 	tastes = list("dough" = 2, "warm jam" = 2)
-	foodtype = GRAIN
+	foodtype = GRAIN | SUGAR
 
 /obj/item/reagent_containers/food/snacks/donkpocket/gondola
 	name = "\improper Gondola-pocket"

@@ -12,15 +12,19 @@
 
 /turf/open/chasm/Initialize()
 	. = ..()
-	AddComponent(/datum/component/chasm, SSmapping.get_turf_below(src))
+	AddComponent(/datum/component/chasm, SSmapping.get_turf_below(src), src)
 
 /turf/open/chasm/proc/set_target(turf/target)
 	var/datum/component/chasm/chasm_component = GetComponent(/datum/component/chasm)
 	chasm_component.target_turf = target
 
+// Only runs in the case of things like pride's mirror who are just using the turf as an easy reference
+
 /turf/open/chasm/proc/drop(atom/movable/AM)
+
 	var/datum/component/chasm/chasm_component = GetComponent(/datum/component/chasm)
 	chasm_component.drop(AM)
+
 
 /turf/open/chasm/MakeSlippery(wet_setting, min_wet_time, wet_time_to_add, max_wet_time, permanent)
 	return
@@ -121,7 +125,7 @@
 	gender = PLURAL
 	desc = "Clouds as far as the eye can see... Watch your step."
 	icon = 'icons/turf/space.dmi'
-	icon_state = "0"
+	icon_state = "cloud"
 	plane = PLANE_SPACE
 	tiled_dirt = FALSE
 	baseturfs = /turf/open/chasm/cloud
@@ -129,13 +133,12 @@
 	planetary_atmos = TRUE
 	initial_gas_mix = FROZEN_ATMOS
 	density = FALSE
+	vis_flags = 8
 
 /turf/open/chasm/cloud/Initialize()
 	. = ..()
-	icon_state = SPACE_ICON_STATE
 
 /turf/open/chasm/cloud/get_smooth_underlay_icon(mutable_appearance/underlay_appearance, turf/asking_turf, adjacency_dir)
 	underlay_appearance.icon = 'icons/turf/space.dmi'
-	underlay_appearance.icon_state = SPACE_ICON_STATE
 	underlay_appearance.plane = PLANE_SPACE
 	return TRUE

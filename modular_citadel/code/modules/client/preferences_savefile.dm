@@ -2,9 +2,9 @@
 	//ipcs
 	S["feature_ipc_screen"] >> features["ipc_screen"]
 	S["feature_ipc_antenna"] >> features["ipc_antenna"]
-
 	features["ipc_screen"] 	= sanitize_inlist(features["ipc_screen"], GLOB.ipc_screens_list)
 	features["ipc_antenna"] 	= sanitize_inlist(features["ipc_antenna"], GLOB.ipc_antennas_list)
+
 	//Citadel
 	features["flavor_text"]		= sanitize_text(features["flavor_text"], initial(features["flavor_text"]))
 	features["ooc_text"]		= sanitize_text(features["ooc_text"], initial(features["ooc_text"]))
@@ -35,6 +35,7 @@
 			LAZYADD(chosen_gear, path)
 			gear_points -= initial(path.cost)
 
+
 /datum/preferences/proc/cit_character_pref_save(savefile/S)
 	//ipcs
 	WRITE_FILE(S["feature_ipc_screen"], features["ipc_screen"])
@@ -60,6 +61,7 @@
 	WRITE_FILE(S["feature_cock_color"], features["cock_color"])
 	WRITE_FILE(S["feature_cock_length"], features["cock_length"])
 	WRITE_FILE(S["feature_cock_girth"], features["cock_girth"])
+	WRITE_FILE(S["feature_cock_girth_ratio"], features["cock_girth_ratio"])
 	WRITE_FILE(S["feature_has_sheath"], features["sheath_color"])
 	//balls features
 	WRITE_FILE(S["feature_has_balls"], features["has_balls"])
@@ -99,6 +101,12 @@
 	WRITE_FILE(S["feature_has_anus"], features["has_anus"])
 	WRITE_FILE(S["feature_butt_size"], features["butt_size"])
 	WRITE_FILE(S["feature_butt_color"], features["butt_color"])
+
+	//lips features
+	WRITE_FILE(S["feature_has_lips"], features["has_lips"])
+	WRITE_FILE(S["feature_lips_color"], features["lips_color"])
+	WRITE_FILE(S["feature_lips_shape"], features["lips_shape"])
+
 	//pins
 	WRITE_FILE(S["pins"], pins)
 

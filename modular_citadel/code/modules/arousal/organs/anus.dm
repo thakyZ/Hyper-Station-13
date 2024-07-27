@@ -25,7 +25,7 @@
 	var/lowershape = lowertext(shape)
 
 	//Reflect the size of dat ass on examine.
-	switch(size)
+	switch(round(size))
 		if(1)
 			size_name = "average"
 		if(2)
@@ -36,6 +36,12 @@
 			size_name = "hefty"
 		if(5)
 			size_name = "godly"
+		if(6)
+			size_name = "gigantic"
+		if(7)
+			size_name = "unfathomably large"
+		if(8)
+			size_name = "absolute dumptruck"
 		else
 			size_name = "nonexistant"
 

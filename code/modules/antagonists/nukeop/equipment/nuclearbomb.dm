@@ -260,11 +260,11 @@
 	ui_mode = NUKEUI_AWAIT_TIMER
 
 
-/obj/machinery/nuclearbomb/ui_interact(mob/user, ui_key="main", datum/tgui/ui=null, force_open=0, datum/tgui/master_ui=null, datum/ui_state/state=GLOB.default_state)
+/obj/machinery/nuclearbomb/ui_interact(mob/user, ui_key="main", datum/tgui/ui=null, force_open=0, datum/tgui/master_ui=null, datum/tgui_state/state=GLOB.tgui_default_state)
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
-		ui = new(user, src, ui_key, "nuclear_bomb", name, 350, 442, master_ui, state)
-		ui.set_style(ui_style)
+		ui = new(user, src, ui_key, "NuclearBomb", name, 350, 442, master_ui, state)
+		// ui.set_style(ui_style)
 		ui.open()
 
 /obj/machinery/nuclearbomb/ui_data(mob/user)
@@ -662,8 +662,8 @@ This is here to make the tiles around the station mininuke change when it's arme
 			var/datum/round_event_control/operative/loneop = locate(/datum/round_event_control/operative) in SSevents.control
 			if(istype(loneop))
 				loneop.weight += 1
-				if(loneop.weight % 5 == 0)
-					message_admins("[src] is stationary in [ADMIN_VERBOSEJMP(newturf)]. The weight of Lone Operative is now [loneop.weight].")
+//				if(loneop.weight % 5 == 0)
+//					message_admins("[src] is stationary in [ADMIN_VERBOSEJMP(newturf)]. The weight of Lone Operative is now [loneop.weight].")
 				log_game("[src] is stationary for too long in [loc_name(newturf)], and has increased the weight of the Lone Operative event to [loneop.weight].")
 	else
 		lastlocation = newturf
@@ -671,8 +671,8 @@ This is here to make the tiles around the station mininuke change when it's arme
 		var/datum/round_event_control/operative/loneop = locate(/datum/round_event_control/operative) in SSevents.control
 		if(istype(loneop) && prob(loneop.weight))
 			loneop.weight = max(loneop.weight - 1, 0)
-			if(loneop.weight % 5 == 0)
-				message_admins("[src] is on the move (currently in [ADMIN_VERBOSEJMP(newturf)]). The weight of Lone Operative is now [loneop.weight].")
+//			if(loneop.weight % 5 == 0)
+//				message_admins("[src] is on the move (currently in [ADMIN_VERBOSEJMP(newturf)]). The weight of Lone Operative is now [loneop.weight].")
 			log_game("[src] being on the move has reduced the weight of the Lone Operative event to [loneop.weight].")
 
 /obj/item/disk/nuclear/examine(mob/user)

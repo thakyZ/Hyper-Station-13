@@ -188,9 +188,23 @@
 	if(legcuffed)
 		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_LEGCUFFED]'>Legcuffed</A></td></tr>"
 
+
+	var/mob/living/carbon/U = src //for carbon genitals
+	if(U)
+		for(var/obj/item/organ/genital/G in U.internal_organs)
+			if(G.is_exposed())
+				if(!G.equipment)
+					dat += "<tr><td><B>[G.name]:</B></td><td><A href='?src=[REF(src)];item=[G.equipment]'>["<font color=grey>Empty</font>"]</A></td></tr>"
+				else
+					dat += "<tr><td><B>[G.name]:</B></td><td><A href='?src=[REF(src)];gitem=\ref[G.equipment]'>[G.equipment.name]</A></td></tr>"
+			else
+				dat += "<tr><td><font color=grey><B>[G.name]:</B></font></td><td><font color=grey>Obscured</font></td></tr>"
+
 	dat += {"</table>
 	<A href='?src=[REF(user)];mach_close=mob[REF(src)]'>Close</A>
 	"}
+
+
 
 	var/datum/browser/popup = new(user, "mob[REF(src)]", "[src]", 440, 510)
 	popup.set_content(dat.Join())
@@ -242,6 +256,23 @@
 			if(slot in check_obscured_slots())
 				to_chat(usr, "<span class='warning'>You can't reach that! Something is covering it.</span>")
 				return
+
+		if(href_list["gitem"])//remove gential item
+			var/obj/item/I = locate(href_list["gitem"])
+			var/obj/item/organ/genital/G = I.loc
+			if(G.is_exposed())
+				to_chat(usr, "<span class='notice'>You try to remove [src]'s [I].</span>")
+				to_chat(src, "<span class='warning'>[usr] is trying to remove your [I].</span>")
+				if(!do_mob(usr, src, 3 SECONDS))
+					return
+				SEND_SIGNAL(I, "detach_genital_equipment",usr)
+				usr.put_in_hands(I)
+				G.equipment = null
+				return
+			else
+				to_chat(usr, "<span class='warning'>You can't reach that! Something is covering it.</span>")
+				return
+
 
 		if(href_list["pockets"])
 			var/pocket_side = href_list["pockets"]
@@ -729,8 +760,19 @@
 	remove_atom_colour(TEMPORARY_COLOUR_PRIORITY, "#000000")
 	cut_overlay(MA)
 
+//medical scan animation
+/mob/living/carbon/human/proc/scan_animation()
+	var/mutable_appearance/scan_anim
+	scan_anim = mutable_appearance(icon, "mediscan")
+	add_overlay(scan_anim)
+	addtimer(CALLBACK(src, .proc/end_scan_animation, scan_anim), 10)
+	flick(icon,src)
+
+/mob/living/carbon/human/proc/end_scan_animation(mutable_appearance/MA)
+	cut_overlay(MA)
+
 /mob/living/carbon/human/canUseTopic(atom/movable/M, be_close=FALSE, no_dextery=FALSE, no_tk=FALSE)
-	if(incapacitated() || lying )
+	if(incapacitated())
 		to_chat(src, "<span class='warning'>You can't do that right now!</span>")
 		return FALSE
 	if(!Adjacent(M) && (M.loc != src))

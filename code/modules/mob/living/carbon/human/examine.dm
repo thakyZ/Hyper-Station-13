@@ -25,7 +25,7 @@
 
 	var/list/obscured = check_obscured_slots()
 	var/skipface = (wear_mask && (wear_mask.flags_inv & HIDEFACE)) || (head && (head.flags_inv & HIDEFACE))
-	
+
 	if(skipface || get_visible_name() == "Unknown")
 		. += "You can't make out what species they are."
 	else
@@ -127,14 +127,20 @@
 			. += "<span class='love'>[t_He] [t_is] currently in heat.</span>"
 
 	//CIT CHANGES START HERE - adds genital details to examine text
-	if(LAZYLEN(internal_organs))
+	if(LAZYLEN(internal_organs) && user.client?.prefs.cit_toggles)
 		for(var/obj/item/organ/genital/dicc in internal_organs)
 			if(istype(dicc) && dicc.is_exposed())
-				. += "[dicc.desc]"
 
-	var/cursed_stuff = attempt_vr(src,"examine_bellies",args) //vore Code
-	if(!isnull(cursed_stuff))
-		. += cursed_stuff
+				if(!dicc.equipment)
+					. += "[dicc.desc]"
+				else
+					. += "[dicc.desc] <span class='love'>It's equipped with a [dicc.equipment.name].</span>"
+
+
+	if(user.client?.prefs.cit_toggles & VORE_EXAMINE)
+		var/cursed_stuff = attempt_vr(src,"examine_bellies",args) //vore Code
+		if(cursed_stuff)
+			. += cursed_stuff
 //END OF CIT CHANGES
 
 	//Jitters
@@ -331,7 +337,7 @@
 	var/obj/item/organ/vocal_cords/Vc = user.getorganslot(ORGAN_SLOT_VOICE)
 	if(Vc)
 		if(istype(Vc, /obj/item/organ/vocal_cords/velvet))
-			if(client?.prefs.lewdchem)
+			if(client?.prefs.cit_toggles & HYPNO)
 				msg += "<span class='velvet'><i>You feel your chords resonate looking at them.</i></span>\n"
 
 

@@ -9,7 +9,7 @@
  * Paper Frames
  * Runed Metal (cult)
  * Brass (clockwork cult)
- * Bronze (bake brass)
+ * Bronze (fake brass)
  * Cotton/Duracotton
  * Shwadon
  *
@@ -49,6 +49,13 @@ GLOBAL_LIST_INIT(metal_recipes, list ( \
 		new/datum/stack_recipe("sofa (corner)", /obj/structure/chair/sofa/corner, one_per_turf = TRUE, on_floor = TRUE) \
 		)), \
 	//END OF CIT CHANGES
+	new/datum/stack_recipe_list("bench", \
+		list( \
+		new/datum/stack_recipe("bench (middle)", /obj/structure/chair/bench/metal, one_per_turf = TRUE, on_floor = TRUE), \
+		new/datum/stack_recipe("bench (left)", /obj/structure/chair/bench/metal/left, one_per_turf = TRUE, on_floor = TRUE), \
+		new/datum/stack_recipe("bench (right)", /obj/structure/chair/bench/metal/right, one_per_turf = TRUE, on_floor = TRUE), \
+		)), \
+	null, \
 	new/datum/stack_recipe("bed", /obj/structure/bed, 2, one_per_turf = TRUE, on_floor = TRUE), \
 	null, \
 	//add this when I can find a way to make them easily constructible > new/datum/stack_recipe("sink", /obj/structure/sink, 2, one_per_turf = TRUE, on_floor = TRUE),
@@ -58,6 +65,7 @@ GLOBAL_LIST_INIT(metal_recipes, list ( \
 	new/datum/stack_recipe("closet", /obj/structure/closet, 2, time = 15, one_per_turf = TRUE, on_floor = TRUE), \
 	null, \
 	new/datum/stack_recipe("canister", /obj/machinery/portable_atmospherics/canister, 10, time = 15, one_per_turf = TRUE, on_floor = TRUE), \
+	new/datum/stack_recipe("trash bin", /obj/structure/closet/crate/bin, 10, time = 15, one_per_turf = TRUE, on_floor = TRUE),\
 	null, \
 	new/datum/stack_recipe("floor tile", /obj/item/stack/tile/plasteel, 1, 4, 20), \
 	new/datum/stack_recipe("metal rod", /obj/item/stack/rods, 1, 2, 60), \
@@ -105,6 +113,7 @@ GLOBAL_LIST_INIT(metal_recipes, list ( \
 	new/datum/stack_recipe("button frame", /obj/item/wallframe/button, 1), \
 	null, \
 	new/datum/stack_recipe("iron door", /obj/structure/mineral_door/iron, 20, one_per_turf = TRUE, on_floor = TRUE), \
+	new/datum/stack_recipe("pestle", /obj/item/pestle, 1, time = 50), \
 	new/datum/stack_recipe("floodlight frame", /obj/structure/floodlight_frame, 5, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("micro powered fan assembly", /obj/machinery/fan_assembly, 10, time = 50, one_per_turf = TRUE, on_floor = TRUE), \
 ))
@@ -206,6 +215,15 @@ GLOBAL_LIST_INIT(wood_recipes, list ( \
 	new/datum/stack_recipe("wood floor tile", /obj/item/stack/tile/wood, 1, 4, 20), \
 	new/datum/stack_recipe("wood table frame", /obj/structure/table_frame/wood, 2, time = 10), \
 	null, \
+
+	new/datum/stack_recipe_list("bench", \
+		list( \
+		new/datum/stack_recipe("bench (middle)", /obj/structure/chair/bench, one_per_turf = TRUE, on_floor = TRUE), \
+		new/datum/stack_recipe("bench (left)", /obj/structure/chair/bench/left, one_per_turf = TRUE, on_floor = TRUE), \
+		new/datum/stack_recipe("bench (right)", /obj/structure/chair/bench/right, one_per_turf = TRUE, on_floor = TRUE), \
+		)), \
+	null, \
+
 	new/datum/stack_recipe("rifle stock", /obj/item/weaponcrafting/stock, 10, time = 40), \
 	new/datum/stack_recipe("rolling pin", /obj/item/kitchen/rollingpin, 2, time = 30), \
 	new/datum/stack_recipe("wooden buckler", /obj/item/shield/riot/buckler, 20, time = 40), \
@@ -231,8 +249,10 @@ GLOBAL_LIST_INIT(wood_recipes, list ( \
 	new/datum/stack_recipe("display case chassis", /obj/structure/displaycase_chassis, 5, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("loom", /obj/structure/loom, 10, time = 15, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("apiary", /obj/structure/beebox, 40, time = 50),\
+	new/datum/stack_recipe("nestbox", /obj/structure/nestbox, 4, time = 30, one_per_turf = TRUE, on_floor = TRUE),\
 	null, \
 	new/datum/stack_recipe("picture frame", /obj/item/wallframe/picture, 1, time = 10),\
+	new/datum/stack_recipe("mortar", /obj/item/reagent_containers/glass/mortar, 3), \
 	new/datum/stack_recipe("painting frame", /obj/item/wallframe/painting, 1, time = 10),\
 	new/datum/stack_recipe("honey frame", /obj/item/honey_frame, 5, time = 10),\
 	new/datum/stack_recipe("cross", /obj/structure/kitchenspike/cross, 10, time = 10),\
@@ -323,6 +343,7 @@ GLOBAL_LIST_INIT(cloth_recipes, list ( \
 	new/datum/stack_recipe("black shoes", /obj/item/clothing/shoes/sneakers/black, 2), \
 	new/datum/stack_recipe("cloth footwraps", /obj/item/clothing/shoes/footwraps, 2), \
 	new/datum/stack_recipe("tunic", /obj/item/clothing/under/tunic, 3), \
+	new/datum/stack_recipe("bathrobe", /obj/item/clothing/suit/bathrobe, 3), \
 	null, \
 	new/datum/stack_recipe("backpack", /obj/item/storage/backpack, 4), \
 	new/datum/stack_recipe("duffel bag", /obj/item/storage/backpack/duffelbag, 6), \
@@ -460,13 +481,18 @@ GLOBAL_LIST_INIT(cardboard_recipes, list ( \
 	new /datum/stack_recipe("donk-pockets teriyaki box", /obj/item/storage/box/donkpockets/donkpocketteriyaki),		\
 	new /datum/stack_recipe("donk-pockets pizza box", /obj/item/storage/box/donkpockets/donkpocketpizza),			\
 	new /datum/stack_recipe("donk-pockets berry box", /obj/item/storage/box/donkpockets/donkpocketberry),			\
+	new /datum/stack_recipe("donk-pockets taco box", /obj/item/storage/box/donkpockets/donkpockettaco),				\
+	new /datum/stack_recipe("donk-pockets plasma box", /obj/item/storage/box/donkpockets/donkpocketplasma),			\
+	new /datum/stack_recipe("donk-pockets breakfast box", /obj/item/storage/box/donkpockets/donkpocketbreakfast),	\
+	new /datum/stack_recipe("donk-pockets moth box", /obj/item/storage/box/donkpockets/donkpocketmoth),				\
+	new /datum/stack_recipe("donk-pockets vegan box", /obj/item/storage/box/donkpockets/donkpocketvegan),			\
 	new /datum/stack_recipe("donk-pockets honk box", /obj/item/storage/box/donkpockets/donkpockethonk),				\
 	new /datum/stack_recipe("monkey cube box", /obj/item/storage/box/monkeycubes),
 	null, \
 	new/datum/stack_recipe("colored brown", /obj/item/storage/box/brown), \
 	new/datum/stack_recipe("colored green", /obj/item/storage/box/green), \
-	new/datum/stack_recipe("colored red", /obj/item/storage/box/blue), \
-	new/datum/stack_recipe("colored blue", /obj/item/storage/box/red), \
+	new/datum/stack_recipe("colored red", /obj/item/storage/box/red), \
+	new/datum/stack_recipe("colored blue", /obj/item/storage/box/blue), \
 	new/datum/stack_recipe("colored yellow", /obj/item/storage/box/yellow), \
 	new/datum/stack_recipe("colored pink", /obj/item/storage/box/pink), \
 	new/datum/stack_recipe("colored purple", /obj/item/storage/box/purple), \
@@ -525,7 +551,6 @@ GLOBAL_LIST_INIT(runed_metal_recipes, list ( \
 	icon = 'icons/obj/stack_objects.dmi'
 	sheettype = "runed"
 	merge_type = /obj/item/stack/sheet/runed_metal
-	novariants = TRUE
 	grind_results = list(/datum/reagent/iron = 5, /datum/reagent/blood = 15)
 
 /obj/item/stack/sheet/runed_metal/ratvar_act()
@@ -645,8 +670,8 @@ GLOBAL_LIST_INIT(bronze_recipes, list ( \
 	name = "brass"
 	desc = "On closer inspection, what appears to be wholly-unsuitable-for-building brass is actually more structurally stable bronze."
 	singular_name = "bronze sheet"
-	icon_state = "sheet-brass"
-	item_state = "sheet-brass"
+	icon_state = "sheet-bronze"
+	item_state = "sheet-bronze"
 	icon = 'icons/obj/stack_objects.dmi'
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	throwforce = 10
@@ -938,7 +963,7 @@ GLOBAL_LIST_INIT(micro_bricks_recipes, list ( \
 	flags_1 = CONDUCT_1
 	resistance_flags = FIRE_PROOF
 	merge_type = /obj/item/stack/sheet/micro_bricks
-	
+
 /obj/item/stack/sheet/micro_bricks/fifty
 	amount = 50
 

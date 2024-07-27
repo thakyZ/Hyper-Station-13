@@ -77,11 +77,11 @@
 	ui_interact(user)
 
 /obj/item/canvas/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, \
-										datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
+										datum/tgui/master_ui = null, datum/tgui_state/state = GLOB.tgui_default_state)
 
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
-		ui = new(user, src, ui_key, "canvas", name, ui_x, ui_y, master_ui, state)
+		ui = new(user, src, ui_key, "Canvas", name, ui_x, ui_y, master_ui, state)
 		ui.set_autoupdate(FALSE)
 		ui.open()
 
@@ -200,6 +200,17 @@
 	framed_offset_x = 8
 	framed_offset_y = 9
 
+/obj/item/canvas/nineteenXtwentythree
+	icon_state = "19x23"
+	width = 19
+	height = 23
+	ui_x = 600
+	ui_y = 800
+	pixel_x = 6
+	pixel_y = 9
+	framed_offset_x = 7
+	framed_offset_y = 5
+
 /obj/item/canvas/twentythreeXnineteen
 	icon_state = "23x19"
 	width = 23
@@ -273,16 +284,16 @@
 	if(persistence_id)
 		. += "<span class='notice'>Any painting placed here will be archived at the end of the shift.</span>"
 	if(current_canvas)
-		ui_interact(user, state = GLOB.physical_obscured_state)
+		ui_interact(user, state = GLOB.tgui_physical_obscured_state)
 		. += "<span class='notice'>Use wirecutters to remove the painting.</span>"
 
 //Hyperstation UI hotwire code ahead. No, I'm not particularly proud of this but if it works, it works.
 /obj/structure/sign/painting/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, \
-										datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
+										datum/tgui/master_ui = null, datum/tgui_state/state = GLOB.tgui_default_state)
 
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
-		ui = new(user, src, ui_key, "canvas", name, current_canvas.ui_x, current_canvas.ui_y, master_ui, state)
+		ui = new(user, src, ui_key, "Canvas", name, current_canvas.ui_x, current_canvas.ui_y, master_ui, state)
 		ui.set_autoupdate(FALSE)
 		ui.open()
 

@@ -1,5 +1,6 @@
 GLOBAL_LIST_INIT(command_positions, list(
 	"Captain",
+	"Lambent",
 	"Head of Personnel",
 	"Head of Security",
 	"Chief Engineer",
@@ -37,6 +38,8 @@ GLOBAL_LIST_INIT(supply_positions, list(
 
 GLOBAL_LIST_INIT(civilian_positions, list(
 	"Head of Personnel",
+	"Barista",
+	"Barber",
 	"Bartender",
 	"Botanist",
 	"Cook",
@@ -59,6 +62,13 @@ GLOBAL_LIST_INIT(nonhuman_positions, list(
 	"AI",
 	"Cyborg",
 	ROLE_PAI))
+
+GLOBAL_LIST_INIT(important_positions, list(
+	"Lambent"))
+
+GLOBAL_LIST_INIT(silly_positions, list(
+	"Clown",
+	"Mime"))
 
 GLOBAL_LIST_INIT(exp_jobsmap, list(
 	EXP_TYPE_CREW = list("titles" = command_positions | engineering_positions | medical_positions | science_positions | supply_positions | security_positions | civilian_positions | list("AI","Cyborg")), // crew positions

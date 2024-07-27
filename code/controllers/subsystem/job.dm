@@ -82,6 +82,8 @@ SUBSYSTEM_DEF(job)
 			return FALSE
 		if(jobban_isbanned(player, rank) || QDELETED(player))
 			return FALSE
+		if((job.title in GLOB.silly_positions) && player.client.prefs.sillyroles == FALSE)
+			return FALSE
 		if(!job.player_old_enough(player.client))
 			return FALSE
 		if(job.required_playtime_remaining(player.client))
@@ -104,6 +106,9 @@ SUBSYSTEM_DEF(job)
 	for(var/mob/dead/new_player/player in unassigned)
 		if(jobban_isbanned(player, job.title) || QDELETED(player))
 			JobDebug("FOC isbanned failed, Player: [player]")
+			continue
+		if((job.title in GLOB.silly_positions) && (player.client.prefs.sillyroles == FALSE))
+			JobDebug("FOC is not whitelisted, Player: [player]")
 			continue
 		if(!job.player_old_enough(player.client))
 			JobDebug("FOC player not old enough, Player: [player]")
@@ -140,6 +145,10 @@ SUBSYSTEM_DEF(job)
 				JobDebug("GRJ isbanned failed, Player deleted")
 				break
 			JobDebug("GRJ isbanned failed, Player: [player], Job: [job.title]")
+			continue
+
+		if((job.title in GLOB.silly_positions) && (player.client.prefs.sillyroles == FALSE))
+			JobDebug("GRJ is not whitelisted, Player: [player], Job: [job.title]")
 			continue
 
 		if(!job.player_old_enough(player.client))
@@ -320,6 +329,10 @@ SUBSYSTEM_DEF(job)
 					JobDebug("DO player deleted during job ban check")
 					break
 
+				if((job.title in GLOB.silly_positions) && (player.client.prefs.sillyroles == FALSE))
+					JobDebug("DO is not whitelisted, Player: [player], Job:[job.title]")
+					continue
+
 				if(!job.player_old_enough(player.client))
 					JobDebug("DO player not old enough, Player: [player], Job:[job.title]")
 					continue
@@ -379,7 +392,7 @@ SUBSYSTEM_DEF(job)
 		message_admins(message)
 		RejectPlayer(player)
 //Gives the player the stuff he should have with his rank
-/datum/controller/subsystem/job/proc/EquipRank(mob/M, rank, joined_late = FALSE)
+/datum/controller/subsystem/job/proc/EquipRank(mob/M, rank, joined_late = FALSE,loadout = TRUE)
 	var/mob/dead/new_player/N
 	var/mob/living/H
 	if(!joined_late)
@@ -418,7 +431,9 @@ SUBSYSTEM_DEF(job)
 
 	//Job loadout, equipping, and flavortext when spawning
 	if(job)
-		var/list/handle_storage = equip_loadout(N, H)	//Loadout gear
+		var/list/handle_storage
+		if(loadout)
+			handle_storage = equip_loadout(N, H)	//Loadout gear
 		var/new_mob = job.equip(H, null, null, joined_late)	//Job gear
 
 		if(ismob(new_mob))	//The above doesnt return a value, but we check this anyways or else everything breaks!
@@ -427,17 +442,17 @@ SUBSYSTEM_DEF(job)
 				N.new_character = H
 			else
 				M = H
-
-		if(LAZYLEN(handle_storage))	//equip_loadout returned a list. This list is backpack contents we should store, as by now we should have a backpack and a single reference mob
-			if(ishuman(H))
-				var/mob/living/carbon/human/_H = H
-				if(_H.back)
-					for(var/atom/movable/A in handle_storage)
-						if(!SEND_SIGNAL(_H.back, COMSIG_TRY_STORAGE_INSERT, A, null, TRUE, TRUE))
-							A.forceMove(get_turf(H))	//Try and store into the backpack. If the backpack is full, drop it to the ground
-				else //No backpack
-					for(var/atom/movable/A in handle_storage)
-						A.forceMove(get_turf(H))
+		if(loadout)
+			if(LAZYLEN(handle_storage))	//equip_loadout returned a list. This list is backpack contents we should store, as by now we should have a backpack and a single reference mob
+				if(ishuman(H))
+					var/mob/living/carbon/human/_H = H
+					if(_H.back)
+						for(var/atom/movable/A in handle_storage)
+							if(!SEND_SIGNAL(_H.back, COMSIG_TRY_STORAGE_INSERT, A, null, TRUE, TRUE))
+								A.forceMove(get_turf(H))	//Try and store into the backpack. If the backpack is full, drop it to the ground
+					else //No backpack
+						for(var/atom/movable/A in handle_storage)
+							A.forceMove(get_turf(H))
 
 		//Flavortext
 		var/display_rank = rank
@@ -510,11 +525,15 @@ SUBSYSTEM_DEF(job)
 		var/never = 0 //never
 		var/banned = 0 //banned
 		var/young = 0 //account too young
+		var/silly = 0 //Silly whitelist required
 		for(var/mob/dead/new_player/player in GLOB.player_list)
 			if(!(player.ready == PLAYER_READY_TO_PLAY && player.mind && !player.mind.assigned_role))
 				continue //This player is not ready
 			if(jobban_isbanned(player, job.title) || QDELETED(player))
 				banned++
+				continue
+			if((job.title in GLOB.silly_positions) && (player.client.prefs.sillyroles == FALSE))
+				silly++
 				continue
 			if(!job.player_old_enough(player.client))
 				young++
@@ -535,6 +554,7 @@ SUBSYSTEM_DEF(job)
 		SSblackbox.record_feedback("nested tally", "job_preferences", never, list("[job.title]", "never"))
 		SSblackbox.record_feedback("nested tally", "job_preferences", banned, list("[job.title]", "banned"))
 		SSblackbox.record_feedback("nested tally", "job_preferences", young, list("[job.title]", "young"))
+		SSblackbox.record_feedback("nested tally", "job_preferences", silly, list("[job.title]", "silly"))
 
 /datum/controller/subsystem/job/proc/PopcapReached()
 	var/hpc = CONFIG_GET(number/hard_popcap)

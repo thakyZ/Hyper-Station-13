@@ -360,6 +360,10 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	if(mind.current.key && mind.current.key[1] != "@")	//makes sure we don't accidentally kick any clients
 		to_chat(usr, "<span class='warning'>Another consciousness is in your body...It is resisting you.</span>")
 		return
+	if(mind.reEnterCooldown > world.time - 20) //cooldown to avoid body deletion. The server can be slower than players clicking this too fast.
+		to_chat(src, "<span class='warning'>You are doing this too fast. Stay still and try this again in a few seconds.</span>")
+		return
+	mind.reEnterCooldown = world.time
 	client.change_view(CONFIG_GET(string/default_view))
 	SStgui.on_transfer(src, mind.current) // Transfer NanoUIs.
 	mind.current.key = key
@@ -649,12 +653,12 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	return 1
 
 /mob/dead/observer/verb/view_manifest()
-	set name = "View Crew Manifest"
+	set name = "View Game Manifest"
 	set category = "Ghost"
 
 	var/dat
-	dat += "<h4>Crew Manifest</h4>"
-	dat += GLOB.data_core.get_manifest()
+	dat += "<h4>Game Manifest</h4>"
+	dat += GLOB.data_core.get_manifest(FALSE,TRUE) //Gets a more complete crew manifest
 
 	src << browse(dat, "window=manifest;size=387x420;can_close=1")
 

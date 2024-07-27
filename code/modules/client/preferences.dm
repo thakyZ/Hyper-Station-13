@@ -50,6 +50,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/radiosounds = TRUE
 	var/max_chat_length = CHAT_MESSAGE_MAX_LENGTH
 	var/see_chat_non_mob = TRUE
+	var/see_rc_emotes = TRUE
 	var/tgui_fancy = TRUE
 	var/tgui_lock = TRUE
 	var/windowflashing = TRUE
@@ -96,6 +97,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/eye_color = "000"				//Eye color
 	var/wing_color = "fff"				//Wing color
 
+	var/grad_style						//Hair gradient style
+	var/grad_color = "FFFFFF"			//Hair gradient color
+
 	//HS13
 	var/body_size = 100					//Body Size in percent
 	var/can_get_preg = 0				//if they can get preggers
@@ -104,7 +108,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/sillyroles = FALSE //for clown and mime
 	var/roleplayroles = FALSE //for the roleplay roles
 	var/importantroles = FALSE //for things that define as important.
-
 
 	var/datum/species/pref_species = new /datum/species/human()	//Mutant race
 	var/list/features = list("mcolor" = "FFF",
@@ -140,7 +143,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		"cock_length" = 6,
 		"belly_size" = 1,
 		"butt_size" = 1,
-		"cock_girth_ratio" = COCK_GIRTH_RATIO_DEF,
+		"cock_girth_ratio" = 0.25,
 		"cock_color" = "fff",
 		"has_sheath" = FALSE,
 		"sheath_color" = "fff",
@@ -150,6 +153,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		"belly_color" = "fff",
 		"has_anus" = FALSE,
 		"butt_color" = "fff",
+		"has_lips" = FALSE,
+		"lips_shape" = "nonexistant",
+		"lips_color" = "fff",
 		"has_balls" = FALSE,
 		"balls_internal" = FALSE,
 		"balls_color" = "fff",
@@ -192,7 +198,15 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		"ipc_antenna" = "None",
 		"flavor_text" = "",
 		"silicon_flavor_text" = "",
-		"ooc_text" = ""
+		"ooc_text" = "",
+		"front_genitals_over_hair" = FALSE,
+		"cosmetic_head" = /datum/cosmetic_part/head/default,
+		"cosmetic_chest" = /datum/cosmetic_part/chest/default,
+		"cosmetic_l_arm" = /datum/cosmetic_part/arms/default,
+		"cosmetic_r_arm" = /datum/cosmetic_part/arms/default,
+		"cosmetic_l_leg" = /datum/cosmetic_part/legs/default,
+		"cosmetic_r_leg" = /datum/cosmetic_part/legs/default,
+		"cosmetic_markings" = FALSE
 		)
 
 	/// Security record note section
@@ -267,7 +281,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 /datum/preferences/New(client/C)
 	parent = C
-	clientfps = world.fps*2
 	for(var/custom_name_id in GLOB.preferences_custom_names)
 		custom_names[custom_name_id] = get_default_name(custom_name_id)
 
@@ -308,6 +321,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	dat += "<a href='?_src_=prefs;preference=tab;tab=3' [current_tab == 3 ? "class='linkOn'" : ""]>Loadout</a>"
 	dat += "<a href='?_src_=prefs;preference=tab;tab=1' [current_tab == 1 ? "class='linkOn'" : ""]>Game Preferences</a>"
 	dat += "<a href='?_src_=prefs;preference=tab;tab=4' [current_tab == 4 ? "class='linkOn'" : ""]>Antagonist Preferences</a>"
+	dat += "<a href='?_src_=prefs;preference=tab;tab=5' [current_tab == 5 ? "class='linkOn'" : ""]>Content Preferences</a>"
 
 	if(!path)
 		dat += "<div class='notice'>Please create an account to save your preferences</div>"
@@ -434,7 +448,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<b>Custom Species Name:</b><a style='display:block;width:100px' href='?_src_=prefs;preference=custom_species;task=input'>[custom_species ? custom_species : "None"]</a><BR>"
 			dat += "<a style='display:block;width:100px' href='?_src_=prefs;preference=all;task=random'>Random Body</A><BR>"
 			dat += "<b>Always Random Body:</b><a href='?_src_=prefs;preference=all'>[be_random_body ? "Yes" : "No"]</A><BR>"
-			//dat += "<br><b>Cycle background:</b><a style='display:block;width:100px' href='?_src_=prefs;preference=cycle_bg;task=input'>[bgstate]</a><BR>"
+			dat += "<br><b>Select background:</b><a style='display:block;width:100px' href='?_src_=prefs;preference=select_bg;task=input'>[bgstate]</a><BR>"
+			dat += "<b>Render front genitals over hair:</b><a href='?_src_=prefs;task=front_genitals_over_hair'>[features["front_genitals_over_hair"] ? "Yes" : "No"]</A><BR>"
 
 			var/use_skintones = pref_species.use_skintones
 			if(use_skintones)
@@ -503,6 +518,14 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				dat += "<a style='display:block;width:100px' href='?_src_=prefs;preference=facial_hair_style;task=input'>[facial_hair_style]</a>"
 				dat += "<a href='?_src_=prefs;preference=previous_facehair_style;task=input'>&lt;</a> <a href='?_src_=prefs;preference=next_facehair_style;task=input'>&gt;</a><BR>"
 				dat += "<span style='border: 1px solid #161616; background-color: #[facial_hair_color];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=facial;task=input'>Change</a><BR>"
+
+
+				dat += "<h3>Hair Gradient</h3>"
+
+				dat += "<a style='display:block;width:100px' href='?_src_=prefs;preference=grad_style;task=input'>[grad_style]</a>"
+				dat += "<a href='?_src_=prefs;preference=previous_grad_style;task=input'>&lt;</a> <a href='?_src_=prefs;preference=next_grad_style;task=input'>&gt;</a><BR>"
+				dat += "<span style='border: 1px solid #161616; background-color: #[grad_color];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=grad_color;task=input'>Change</a><BR>"
+
 
 				dat += "</td>"
 			//Mutant stuff
@@ -810,8 +833,55 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				mutant_category = 0
 
 			dat += "</tr></table>"
-
 			dat += "</td>"
+
+			// HYPER EDIT: Cosmetic body parts
+
+			var/datum/cosmetic_part/cosmetic_head = features["cosmetic_head"]
+			var/datum/cosmetic_part/cosmetic_chest = features["cosmetic_chest"]
+			var/datum/cosmetic_part/cosmetic_arms = features["cosmetic_l_arm"]
+			var/datum/cosmetic_part/cosmetic_legs = features["cosmetic_l_leg"]
+
+			dat += "<div style='width:100%;display:block;'>"
+			dat +=   "<h2>Cosmetic Parts</h2>"
+			dat +=   "<b>Use markings on cosmetic parts?</b> "
+			dat +=   "<a href='?_src_=prefs;preference=cosmetic_markings'>[features["cosmetic_markings"] ? "Yes" : "No"]</a>"
+			dat +=   "<div style='display:flex; align-items:stretch; justify-content:space-around;'>"
+			dat +=     "<div style='flex: 1 1 0;'>"
+			dat +=       "<h3 style='text-align:center;'>Head</h3>"
+			dat +=       "<a style='display:block; width:100px'"
+			dat +=         "href='?_src_=prefs;preference=cosmetic_head;task=input'>"
+			dat +=         cosmetic_head.name
+			dat +=       "</a>"
+			dat +=     "</div>"
+			dat +=     "<div style='flex: 1 1 0;'>"
+			dat +=       "<h3 style='text-align:center;'>Chest</h3>"
+			dat +=       "<a style='display:block; width:100px'"
+			dat +=         "href='?_src_=prefs;preference=cosmetic_chest;task=input'>"
+			dat +=         cosmetic_chest.name
+			dat +=       "</a>"
+			dat +=     "</div>"
+			dat +=     "<div style='flex: 1 1 0;'>"
+			dat +=       "<h3 style='text-align:center;'>Arms</h3>"
+			dat +=       "<a style='display:block; width:100px'"
+			dat +=         "href='?_src_=prefs;preference=cosmetic_arms;task=input'>"
+			dat +=         cosmetic_arms.name
+			dat +=       "</a>"
+			dat +=     "</div>"
+			dat +=     "<div style='flex: 1 1 0;'>"
+			dat +=       "<h3 style='text-align:center;'>Legs</h3>"
+			dat +=       "<a style='display:block; width:100px'"
+			dat +=         "href='?_src_=prefs;preference=cosmetic_legs;task=input'>"
+			dat +=         cosmetic_legs.name
+			dat +=       "</a>"
+			dat +=     "</div>"
+			dat +=   "</div>"
+			dat += "</div>"
+
+
+
+			// End hyper edit
+
 			dat += "<table><tr><td width='340px' height='300px' valign='top'>"
 			dat += "<h2>Clothing & Equipment</h2>"
 			dat += "<b>Underwear:</b><a style='display:block;width:100px' href ='?_src_=prefs;preference=underwear;task=input'>[underwear]</a>"
@@ -845,6 +915,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						dat += "<span style='border: 1px solid #161616; background-color: #[features["cock_color"]];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=cock_color;task=input'>Change</a><br>"
 					dat += "<b>Penis Shape:</b> <a style='display:block;width:120px' href='?_src_=prefs;preference=cock_shape;task=input'>[features["cock_shape"]]</a>"
 					dat += "<b>Penis Length:</b> <a style='display:block;width:120px' href='?_src_=prefs;preference=cock_length;task=input'>[features["cock_length"]] inch(es)</a>"
+					dat += "<b>Girth Ratio:</b> <a style='display:block;width:50px' href='?_src_=prefs;preference=cock_girth_ratio;task=input'>[features["cock_girth_ratio"]]</a>"
 					dat += "<b>Has Testicles:</b><a style='display:block;width:50px' href='?_src_=prefs;preference=has_balls'>[features["has_balls"] == TRUE ? "Yes" : "No"]</a>"
 					if(features["has_balls"])
 						if(pref_species.use_skintones && features["genitals_use_skintone"] == TRUE)
@@ -946,6 +1017,19 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 				dat += "</td>"
 
+				dat += APPEARANCE_CATEGORY_COLUMN
+				dat += "<h3>Lips</h3>"
+				dat += "<a style='display:block;width:50px' href='?_src_=prefs;preference=has_lips'>[features["has_lips"] == TRUE ? "Yes" : "No"]</a>"
+				if(features["has_lips"])
+					dat += "<b>Lips Type:</b> <a style='display:block;width:100px' href='?_src_=prefs;preference=lips_shape;task=input'>[features["lips_shape"]]</a>"
+					if(pref_species.use_skintones && features["genitals_use_skintone"] == TRUE)
+						dat += "<b>Lips Color:</b></a><BR>"
+						dat += "<span style='border: 1px solid #161616; background-color: #[skintone2hex(skin_tone)];'>&nbsp;&nbsp;&nbsp;</span>(Skin tone overriding)<br>"
+					else
+						dat += "<b>Lips Color:</b></a><BR>"
+						dat += "<span style='border: 1px solid #161616; background-color: #[features["lips_color"]];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=lips_color;task=input'>Change</a><br>"
+				dat += "</td>"
+
 			dat += "</td>"
 			dat += "</tr></table>"
 
@@ -958,6 +1042,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<b>Chat Bubbles:</b> <a href='?_src_=prefs;preference=chat_on_map'>[chat_on_map ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<b>Chat Bubbles message char limit:</b> <a href='?_src_=prefs;preference=max_chat_length;task=input'>[max_chat_length]</a><br>"
 			dat += "<b>Chat Bubbles for non-mobs:</b> <a href='?_src_=prefs;preference=see_chat_non_mob'>[see_chat_non_mob ? "Enabled" : "Disabled"]</a><br>"
+			dat += "<b>Chat Bubbles emotes:</b> <a href='?_src_=prefs;preference=see_rc_emotes'>[see_rc_emotes ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<br>"
 			dat += "<b>Autocorrect:</b> <a href='?_src_=prefs;preference=autocorrect'>[(autocorrect) ? "On" : "Off"]</a><br>"
 			dat += "<b>Radio Sounds:</b> <a href='?_src_=prefs;preference=radiosounds'>[radiosounds ? "Enabled" : "Disabled"]</a><br>"
@@ -999,12 +1084,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 			dat +="<td width='300px' height='300px' valign='top'>"
 			dat += "<h2>Citadel Preferences</h2>" //Because fuck me if preferences can't be fucking modularized and expected to update in a reasonable timeframe.
-			dat += "<b>Arousal:</b><a href='?_src_=prefs;preference=arousable'>[arousable == TRUE ? "Enabled" : "Disabled"]</a><BR>"
-			dat += "<b>Exhibitionist:</b><a href='?_src_=prefs;preference=exhibitionist'>[features["exhibitionist"] == TRUE ? "Yes" : "No"]</a><BR>"
-			dat += "<b>Voracious MediHound sleepers:</b> <a href='?_src_=prefs;preference=hound_sleeper'>[(cit_toggles & MEDIHOUND_SLEEPER) ? "Yes" : "No"]</a><br>"
-			dat += "<b>Hear Vore Sounds:</b> <a href='?_src_=prefs;preference=toggleeatingnoise'>[(cit_toggles & EATING_NOISES) ? "Yes" : "No"]</a><br>"
-			dat += "<b>Hear Vore Digestion Sounds:</b> <a href='?_src_=prefs;preference=toggledigestionnoise'>[(cit_toggles & DIGESTION_NOISES) ? "Yes" : "No"]</a><br>"
-			dat += "<b>Lewdchem:</b><a href='?_src_=prefs;preference=lewdchem'>[lewdchem == TRUE ? "Enabled" : "Disabled"]</a><BR>"
 			dat += "<b>Widescreen:</b> <a href='?_src_=prefs;preference=widescreenpref'>[widescreenpref ? "Enabled ([CONFIG_GET(string/default_view)])" : "Disabled (15x15)"]</a><br>"
 			dat += "<b>Auto stand:</b> <a href='?_src_=prefs;preference=autostand'>[autostand ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<b>Screen Shake:</b> <a href='?_src_=prefs;preference=screenshake'>[(screenshake==100) ? "Full" : ((screenshake==0) ? "None" : "[screenshake]")]</a><br>"
@@ -1155,8 +1234,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				dat += "</td><td><font size=2><i>[gear.description]</i></font></td></tr>"
 			dat += "</table>"
 
-		if(4)		//Antag Preferences
-			dat += "<table><tr><td width='340px' height='300px' valign='top'>"
+		if(4)	//Antag Preferences
 			dat += "<h1>Special Role Settings</h1>"
 			if(jobban_isbanned(user, ROLE_SYNDICATE))
 				dat += "<font color=red><h3><b>You are banned from antagonist roles.</b></h3></font>"
@@ -1177,13 +1255,34 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					else
 						dat += "<b>Be [capitalize(i)]:</b> <a href='?_src_=prefs;preference=be_special;be_special_type=[i]'>[(i in be_special) ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<b>Midround Antagonist:</b> <a href='?_src_=prefs;preference=allow_midround_antag'>[(toggles & MIDROUND_ANTAG) ? "Enabled" : "Disabled"]</a><br>"
-			dat += "</td><td width='340px' height='300px' valign='top'>"
-			dat += "<h1>Sync Settings</h1>"
-			dat += "<b>Sync</b> antag prefs. with all characters: <a href='?_src_=prefs;preference=sync_antag_with_chars'>[(toggles & ANTAG_SYNC_WITH_CHARS) ? "Yes" : "No"]</a><br>"
-			dat += "<b>Copy</b> and save antag prefs. to all characters: <a href='?_src_=prefs;preference=copy_antag_to_chars'>Copy</a><br>"
-			dat += "<b>Reset</b> antag prefs. for this character: <a href='?_src_=prefs;preference=reset_antag'>Reset</a><br>"
-			dat += "</td></tr></table>"
 
+		if(5) //Content Preferences
+			dat += "<table><tr><td width='340px' height='300px' valign='top'>"
+			dat += "<h2>Fetish content prefs</h2>"
+			dat += "<b>Arousal:</b><a href='?_src_=prefs;preference=arousable'>[arousable == TRUE ? "Enabled" : "Disabled"]</a><BR>"
+			dat += "<b>Exhibitionist:</b><a href='?_src_=prefs;preference=exhibitionist'>[features["exhibitionist"] == TRUE ? "Yes" : "No"]</a><BR>"
+			dat += "<b>Genital examine text</b>:<a href='?_src_=prefs;preference=genital_examine'>[(cit_toggles & GENITAL_EXAMINE) ? "Enabled" : "Disabled"]</a><BR>"
+			dat += "<b>Vore examine text</b>:<a href='?_src_=prefs;preference=vore_examine'>[(cit_toggles & VORE_EXAMINE) ? "Enabled" : "Disabled"]</a><BR>"
+			dat += "<b>Voracious MediHound sleepers:</b> <a href='?_src_=prefs;preference=hound_sleeper'>[(cit_toggles & MEDIHOUND_SLEEPER) ? "Yes" : "No"]</a><br>"
+			dat += "<b>Hear Vore Sounds:</b> <a href='?_src_=prefs;preference=toggleeatingnoise'>[(cit_toggles & EATING_NOISES) ? "Yes" : "No"]</a><br>"
+			dat += "<b>Hear Vore Digestion Sounds:</b> <a href='?_src_=prefs;preference=toggledigestionnoise'>[(cit_toggles & DIGESTION_NOISES) ? "Yes" : "No"]</a><br>"
+			dat += "<b>Allow trash forcefeeding (requires Trashcan quirk)</b> <a href='?_src_=prefs;preference=toggleforcefeedtrash'>[(cit_toggles & TRASH_FORCEFEED) ? "Yes" : "No"]</a><br>"
+			dat += "<b>Forced Feminization:</b> <a href='?_src_=prefs;preference=feminization'>[(cit_toggles & FORCED_FEM) ? "Allowed" : "Disallowed"]</a><br>"
+			dat += "<b>Forced Masculinization:</b> <a href='?_src_=prefs;preference=masculinization'>[(cit_toggles & FORCED_MASC) ? "Allowed" : "Disallowed"]</a><br>"
+			dat += "<b>Lewd Hypno:</b> <a href='?_src_=prefs;preference=hypno'>[(cit_toggles & HYPNO) ? "Allowed" : "Disallowed"]</a><br>"
+			dat += "</td>"
+			dat +="<td width='300px' height='300px' valign='top'>"
+			dat += "<h2>Other content prefs</h2>"
+			dat += "<b>Breast Enlargement:</b> <a href='?_src_=prefs;preference=breast_enlargement'>[(cit_toggles & BREAST_ENLARGEMENT) ? "Allowed" : "Disallowed"]</a><br>"
+			dat += "<b>Penis Enlargement:</b> <a href='?_src_=prefs;preference=penis_enlargement'>[(cit_toggles & PENIS_ENLARGEMENT) ? "Allowed" : "Disallowed"]</a><br>"
+			dat += "<b>Ass Enlargement:</b> <a href='?_src_=prefs;preference=ass_enlargement'>[(cit_toggles & ASS_ENLARGEMENT) ? "Allowed" : "Disallowed"]</a><br>"
+			dat += "<b>Hypno:</b> <a href='?_src_=prefs;preference=never_hypno'>[(cit_toggles & NEVER_HYPNO) ? "Disallowed" : "Allowed"]</a><br>"
+			dat += "<b>Aphrodisiacs:</b> <a href='?_src_=prefs;preference=aphro'>[(cit_toggles & NO_APHRO) ? "Disallowed" : "Allowed"]</a><br>"
+			dat += "<b>Ass Slapping:</b> <a href='?_src_=prefs;preference=ass_slap'>[(cit_toggles & NO_ASS_SLAP) ? "Disallowed" : "Allowed"]</a><br>"
+			dat += "<b>Automatic Wagging:</b> <a href='?_src_=prefs;preference=auto_wag'>[(cit_toggles & NO_AUTO_WAG) ? "Disallowed" : "Allowed"]</a><br>"
+			dat += "<b>Forced UwUspeak:</b> <a href='?_src_=prefs;preference=no_uwu'>[(cit_toggles & NO_UWU) ? "Disallowed" : "Allowed"]</a><br>"
+			dat += "</tr></table>"
+			dat += "<br>"
 
 	dat += "<hr><center>"
 
@@ -1255,6 +1354,17 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			if(jobban_isbanned(user, rank))
 				HTML += "<font color=red>[rank]</font></td><td><a href='?_src_=prefs;jobbancheck=[rank]'> BANNED</a></td></tr>"
 				continue
+			//Hyperstation Edit - Whitelisted roles
+			if((rank in GLOB.silly_positions) && (!sillyroles))
+				HTML += "<font color=red>[rank]</font></td><td><font color=orange> \[WHITELIST]</font></td></tr>"
+				continue
+			if((rank in GLOB.important_positions) && (!importantroles))
+				HTML += "<font color=red>[rank]</font></td><td><font color=orange> \[WHITELIST]</font></td></tr>"
+				continue
+			if((rank in GLOB.roleplay_positions) && (!roleplayroles))
+				HTML += "<font color=red>[rank]</font></td><td><font color=orange> \[WHITELIST]</font></td></tr>"
+				continue
+			//Hyperstation Edit end
 			var/required_playtime_remaining = job.required_playtime_remaining(user.client)
 			if(required_playtime_remaining)
 				HTML += "<font color=red>[rank]</font></td><td><font color=red> \[ [get_exp_format(required_playtime_remaining)] as [job.get_exp_req_type()] \] </font></td></tr>"
@@ -1685,6 +1795,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		return TRUE
 
 	switch(href_list["task"])
+		if("front_genitals_over_hair")
+			features["front_genitals_over_hair"] = !features["front_genitals_over_hair"]
 		if("random")
 			switch(href_list["preference"])
 				if("name")
@@ -1846,8 +1958,28 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				if("previous_facehair_style")
 					facial_hair_style = previous_list_item(facial_hair_style, GLOB.facial_hair_styles_list)
 
-				if("cycle_bg")
-					bgstate = next_list_item(bgstate, bgstate_options)
+				if("grad_color")
+					var/new_grad_color = input(user, "Choose your character's gradient colour:", "Character Preference","#"+grad_color) as color|null
+					if(new_grad_color)
+						grad_color = sanitize_hexcolor(new_grad_color, 6)
+
+				if("grad_style")
+					var/new_grad_style
+					new_grad_style = input(user, "Choose your character's hair gradient style:", "Character Preference") as null|anything in GLOB.hair_gradients_list
+					if(new_grad_style)
+						grad_style = new_grad_style
+
+				if("next_grad_style")
+					grad_style = next_list_item(grad_style, GLOB.hair_gradients_list)
+
+				if("previous_grad_style")
+					grad_style = previous_list_item(grad_style, GLOB.hair_gradients_list)
+
+
+				if("select_bg")
+					var/new_bg = input(user, "Select a background:", "Character Preference") as null|anything in bgstate_options
+					if(new_bg)
+						bgstate = new_bg
 
 				if("underwear")
 					var/new_underwear = input(user, "Choose your character's underwear:", "Character Preference")  as null|anything in GLOB.underwear_list
@@ -2236,6 +2368,81 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					new_dors = input(user, "Choose your character's dorsal tube type:", "Character Preference") as null|anything in GLOB.xeno_dorsal_list
 					if(new_dors)
 						features["xenodorsal"] = new_dors
+
+				// HYPER EDIT: Cosmetic body parts
+				if("cosmetic_head")
+					var/list/selectable_parts = list()
+					for(var/path in GLOB.cosmetic_heads)
+						var/datum/cosmetic_part/possible_part = GLOB.cosmetic_heads[path]
+						var/list/supported_species = possible_part.supported_species
+						if(!show_mismatched_markings && supported_species && !supported_species.Find(pref_species.id))
+							continue
+						selectable_parts[possible_part.name] = path
+					if(!selectable_parts.len)
+						to_chat(user, "<span class='warning'>There are no valid alt heads for this species!</span>")
+					var/new_cosmetic_part
+					var/question = "Choose your character's alt head style:"
+					new_cosmetic_part = input(user, question, "Character Preference") as null|anything in selectable_parts
+					if(new_cosmetic_part)
+						features["cosmetic_head"] =  GLOB.cosmetic_heads[selectable_parts[new_cosmetic_part]]
+						update_preview_icon()
+
+				if("cosmetic_chest")
+					var/list/selectable_parts = list()
+					for(var/path in GLOB.cosmetic_chests)
+						var/datum/cosmetic_part/possible_part = GLOB.cosmetic_chests[path]
+						var/list/supported_species = possible_part.supported_species
+						if(!show_mismatched_markings && supported_species && !supported_species.Find(pref_species.id))
+							continue
+						selectable_parts[possible_part.name] = path
+					if(!selectable_parts.len)
+						to_chat(user, "<span class='warning'>There are no valid alt chests for this species!</span>")
+					var/new_cosmetic_part
+					var/question = "Choose your character's alt chest style:"
+					new_cosmetic_part = input(user, question, "Character Preference") as null|anything in selectable_parts
+					if(new_cosmetic_part)
+						features["cosmetic_chest"] =  GLOB.cosmetic_chests[selectable_parts[new_cosmetic_part]]
+						update_preview_icon()
+
+				// currently symmetrical
+				if("cosmetic_arms")
+					var/list/selectable_parts = list()
+					for(var/path in GLOB.cosmetic_arms)
+						var/datum/cosmetic_part/possible_part = GLOB.cosmetic_arms[path]
+						var/list/supported_species = possible_part.supported_species
+						if(!show_mismatched_markings && supported_species && !supported_species.Find(pref_species.id))
+							continue
+						selectable_parts[possible_part.name] = path
+					if(!selectable_parts.len)
+						to_chat(user, "<span class='warning'>There are no valid alt arms for this species!</span>")
+					var/new_cosmetic_part
+					var/question = "Choose your character's alt arms style:"
+					new_cosmetic_part = input(user, question, "Character Preference") as null|anything in selectable_parts
+					if(new_cosmetic_part)
+						features["cosmetic_l_arm"] =  GLOB.cosmetic_arms[selectable_parts[new_cosmetic_part]]
+						features["cosmetic_r_arm"] =  GLOB.cosmetic_arms[selectable_parts[new_cosmetic_part]]
+						update_preview_icon()
+
+				if("cosmetic_legs")
+					var/list/selectable_parts = list()
+					for(var/path in GLOB.cosmetic_legs)
+						var/datum/cosmetic_part/possible_part = GLOB.cosmetic_legs[path]
+						var/list/supported_species = possible_part.supported_species
+						if(!show_mismatched_markings && supported_species && !supported_species.Find(pref_species.id))
+							continue
+						selectable_parts[possible_part.name] = path
+					if(!selectable_parts.len)
+						to_chat(user, "<span class='warning'>There are no valid alt legs for this species!</span>")
+					var/new_cosmetic_part
+					var/question = "Choose your character's alt legs style:"
+					new_cosmetic_part = input(user, question, "Character Preference") as null|anything in selectable_parts
+					if(new_cosmetic_part)
+						features["cosmetic_l_leg"] = GLOB.cosmetic_legs[selectable_parts[new_cosmetic_part]]
+						features["cosmetic_r_leg"] = GLOB.cosmetic_legs[selectable_parts[new_cosmetic_part]]
+						update_preview_icon()
+
+				// End hyper edit
+
 				//Genital code
 				if("cock_color")
 					var/new_cockcolor = input(user, "Penis color:", "Character Preference") as color|null
@@ -2248,10 +2455,31 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						else
 							to_chat(user,"<span class='danger'>Invalid color. Your color is not bright enough.</span>")
 
+				if("lips_shape")
+					var/new_shape
+					new_shape = input(user, "Lips Type", "Character Preference") as null|anything in GLOB.lips_shapes_list
+					if(new_shape)
+						features["lips_shape"] = new_shape
+				if("lips_color")
+					var/new_lipscolor = input(user, "Lips Color:", "Character Preference") as color|null
+					if(new_lipscolor)
+						var/temp_hsv = RGBtoHSV(new_lipscolor)
+						if(new_lipscolor == "#000000")
+							features["lips_color"] = pref_species.default_color
+						else if((MUTCOLORS_PARTSONLY in pref_species.species_traits) || ReadHSV(temp_hsv)[3] >= ReadHSV("#202020")[3])
+							features["lips_color"] = sanitize_hexcolor(new_lipscolor)
+						else
+							to_chat(user,"<span class='danger'>Invalid color. Your color is not bright enough.</span>")
+
 				if("cock_length")
 					var/new_length = input(user, "Penis length in inches:\n([COCK_SIZE_MIN]-[COCK_SIZE_MAX]) Your sprite size will affect your length examine text!\n(When 6in, 50%->3in, 200%->12in)", "Character Preference") as num|null
 					if(new_length)
 						features["cock_length"] = max(min( round(text2num(new_length)), COCK_SIZE_MAX),COCK_SIZE_MIN)
+
+				if("cock_girth_ratio")
+					var/new_girth = input(user, "Penis to girth ratio:\n([COCK_GIRTH_RATIO_MIN]-[COCK_GIRTH_RATIO_MAX]) This will affect your girth examine text in relation to length!\n(Whole numbers become fractions 25->.25, 30->.3)", "Character Preference") as num|null
+					if(new_girth)
+						features["cock_girth_ratio"] = (max(min( round(text2num(new_girth)), 42),15))/100
 
 				if("balls_size")
 					var/new_balls_size = input(user, "Testicle circumference in inches:\n([BALLS_SIZE_MIN]-[BALLS_SIZE_MAX])", "Character Preference") as num|null
@@ -2373,14 +2601,15 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 							to_chat(user,"<span class='danger'>Invalid color. Your color is not bright enough.</span>")
 
 				if("belly_size")
-					var/new_bellysize = input(user, "Belly size :\n(1-3)", "Character Preference") as num|null
-					if(new_bellysize)
-						features["belly_size"] = clamp(new_bellysize, 1, 3)
+					var/new_bellysize = input(user, "Belly size :\n([BELLY_MIN_SIZE]-[BELLY_MAX_SIZE])", "Character Preference") as num|null
+					if(new_bellysize != null)
+						features["belly_size"] = clamp(new_bellysize, BELLY_MIN_SIZE, BELLY_MAX_SIZE)
 
 				if("butt_size")
-					var/new_buttsize = input(user, "Butt size :\n(0-5)", "Character Preference") as num|null
-					if(new_buttsize)
-						features["butt_size"] = clamp(new_buttsize, 0, 5)
+					var/new_buttsize = input(user, "Butt size :\n([BUTT_MIN_SIZE]-[BUTT_MAX_SIZE_SELECTABLE])", "Character Preference") as num|null
+					if(new_buttsize != null)
+						features["butt_size"] = clamp(new_buttsize, BUTT_MIN_SIZE, BUTT_MAX_SIZE_SELECTABLE)
+						//Restricted to 5 in menu, because we have chems to make them big IC, like with breasts and what not.
 
 				if("vag_shape")
 					var/new_shape
@@ -2504,8 +2733,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					features["genitals_use_skintone"] = !features["genitals_use_skintone"]
 				if("arousable")
 					arousable = !arousable
-				if("lewdchem")
-					lewdchem = !lewdchem
 				if("noncon")
 					noncon = !noncon
 				if("has_cock")
@@ -2517,7 +2744,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if(features["has_belly"] == FALSE)
 						features["hide_belly"] = FALSE
 						features["inflatable_belly"] = FALSE
-						features["belly_size"] = 1
+						features["belly_size"] = 0
 
 				if("inflatable_belly")
 					features["inflatable_belly"] = !features["inflatable_belly"]
@@ -2548,6 +2775,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					features["has_anus"] = !features["has_anus"]
 					if(features["has_anus"] == FALSE)
 						features["butt_size"] = 0
+
+				if("has_lips")
+					features["has_lips"] = !features["has_lips"]
+
 				if("has_womb")
 					features["has_womb"] = !features["has_womb"]
 				if("can_get_preg")
@@ -2606,6 +2837,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					radiosounds = !radiosounds
 				if("see_chat_non_mob")
 					see_chat_non_mob = !see_chat_non_mob
+				if("see_rc_emotes")
+					see_rc_emotes = !see_rc_emotes
 				if("tgui_fancy")
 					tgui_fancy = !tgui_fancy
 				if("tgui_lock")
@@ -2631,6 +2864,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 				if("all")
 					be_random_body = !be_random_body
+
+				if("cosmetic_markings")
+					features["cosmetic_markings"] = !features["cosmetic_markings"]
 
 				if("hear_midis")
 					toggles ^= SOUND_MIDI
@@ -2663,30 +2899,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				if("allow_midround_antag")
 					toggles ^= MIDROUND_ANTAG
 
-				if("sync_antag_with_chars")
-					toggles ^= ANTAG_SYNC_WITH_CHARS
-					if(!(toggles & ANTAG_SYNC_WITH_CHARS) && path)
-						var/savefile/S = new /savefile(path)
-						if(S)
-							S["special_roles"] >> be_special
-
-				if("copy_antag_to_chars")
-					if(path)
-						var/savefile/S = new /savefile(path)
-						if(S)
-							var/initial_cd = S.cd
-							for(var/i=1, i<=max_save_slots, i++)
-								S.cd = "/character[i]"
-								if(S["real_name"])
-									WRITE_FILE(S["special_roles"], be_special)
-							S.cd = initial_cd
-							to_chat(parent, "<span class='notice'>Successfully copied antagonist preferences to all characters.</span>")
-						else
-							to_chat(parent, "<span class='notice'>Could not write to file.</span>")
-
-				if("reset_antag")
-					be_special = list()
-
 				if("parallaxup")
 					parallax = WRAP(parallax + 1, PARALLAX_INSANE, PARALLAX_DISABLE + 1)
 					if (parent && parent.mob && parent.mob.hud_used)
@@ -2698,6 +2910,12 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						parent.mob.hud_used.update_parallax_pref(parent.mob)
 
 				// Citadel edit - Prefs don't work outside of this. :c
+				if("genital_examine")
+					cit_toggles ^= GENITAL_EXAMINE
+
+				if("vore_examine")
+					cit_toggles ^= VORE_EXAMINE
+
 				if("hound_sleeper")
 					cit_toggles ^= MEDIHOUND_SLEEPER
 
@@ -2706,6 +2924,43 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 				if("toggledigestionnoise")
 					cit_toggles ^= DIGESTION_NOISES
+
+				if("toggleforcefeedtrash")
+					cit_toggles ^= TRASH_FORCEFEED
+
+				if("breast_enlargement")
+					cit_toggles ^= BREAST_ENLARGEMENT
+
+				if("penis_enlargement")
+					cit_toggles ^= PENIS_ENLARGEMENT
+
+				if("ass_enlargement")
+					cit_toggles ^= ASS_ENLARGEMENT
+
+				if("feminization")
+					cit_toggles ^= FORCED_FEM
+
+				if("masculinization")
+					cit_toggles ^= FORCED_MASC
+
+				if("hypno")
+					cit_toggles ^= HYPNO
+
+				if("never_hypno")
+					cit_toggles ^= NEVER_HYPNO
+
+				if("aphro")
+					cit_toggles ^= NO_APHRO
+
+				if("ass_slap")
+					cit_toggles ^= NO_ASS_SLAP
+
+				if("auto_wag")
+					cit_toggles ^= NO_AUTO_WAG
+
+				if("no_uwu")
+					cit_toggles ^= NO_UWU
+
 				//END CITADEL EDIT
 
 				if("ambientocclusion")
@@ -2728,6 +2983,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				if("save")
 					save_preferences()
 					save_character()
+					if(istype(user,/mob/dead/new_player)) //if the player is a new player at the menu.
+						var/mob/dead/new_player/np = user
+						np.refresh_player_panel() //update their player icons
 
 				if("load")
 					load_preferences()
@@ -2820,6 +3078,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	character.skin_tone = skin_tone
 	character.hair_style = hair_style
 	character.facial_hair_style = facial_hair_style
+
+	character.grad_style = grad_style
+	character.grad_color = grad_color
 	character.underwear = underwear
 
 	character.saved_underwear = underwear

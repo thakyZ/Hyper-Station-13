@@ -123,8 +123,9 @@
 	planetary_atmos = TRUE
 	baseturfs = /turf/open/lava/smooth/lava_land_surface
 
-
-
+/turf/open/floor/plating/asteroid/spacehermit
+	initial_gas_mix = OPENTURF_DEFAULT_ATMOS
+	baseturfs = /turf/open/floor/plating/asteroid/spacehermit
 
 /turf/open/floor/plating/asteroid/airless
 	initial_gas_mix = AIRLESS_ATMOS
@@ -364,42 +365,3 @@
 /turf/open/floor/plating/asteroid/snow/atmosphere
 	initial_gas_mix = FROZEN_ATMOS
 	planetary_atmos = FALSE
-
-//Layenia stuff
-
-/turf/open/floor/plating/asteroid/layenia
-	gender = PLURAL //trans rights
-	name = "crimson Rock"
-	desc = "A cold rock, rusted scarlet in color."
-	icon = 'icons/turf/floors.dmi'
-	baseturfs = /turf/open/floor/plating/asteroid/layenia
-	icon_state = "layenia"
-	icon_plating = "layenia"
-	initial_gas_mix = FROZEN_ATMOS
-	slowdown = 1
-	environment_type = "layenia"
-	flags_1 = NONE
-	planetary_atmos = TRUE
-	burnt_states = null
-	bullet_sizzle = TRUE
-	bullet_bounce_sound = null
-	digResult = /obj/item/stack/ore/glass/basalt
-	floor_variance = 50 //This means 50% chance of variating from the default tile.
-	quantity_of_available_tiles = 4
-	//light_range = 2
-	//light_power = 0.15
-	//light_color = LIGHT_COLOR_WHITE
-
-/turf/open/floor/plating/asteroid/layenia/Initialize()
-	. = ..()
-	//We no longer randomize the icon state here. That is done by the supercall in our parent, asteroid.
-	set_layenia_light(src)
-
-/turf/open/floor/plating/asteroid/layenia/garden
-	initial_gas_mix = OPENTURF_DEFAULT_ATMOS
-	planetary_atmos = TRUE
-
-/proc/set_layenia_light(turf/open/floor/B)
-	switch(B.icon_state)
-		if("layenia3", "layenia4")
-			B.set_light(2, 0.6, LIGHT_COLOR_BLUE) //more light

@@ -10,8 +10,14 @@ area/layenia
 	atmos = FALSE
 	flags_1 = NONE
 
+area/layenia/cave
+	name = "Layenia Caves"
+	icon_state = "mining"
+	outdoors = FALSE
+	dynamic_lighting = DYNAMIC_LIGHTING_FORCED
+
 area/layenia/cloudlayer
-	name = "Laneya clouds"
+	name = "Layenia clouds"
 	icon_state = "space"
 	dynamic_lighting = DYNAMIC_LIGHTING_DISABLED
 	atmos = FALSE

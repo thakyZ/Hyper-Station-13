@@ -18,7 +18,8 @@
 					/obj/item/clothing/mask/bandana/red = 5,
 					/obj/item/clothing/under/rank/security/skirt = 5,
 					/obj/item/clothing/under/rank/security/grey = 5,
-					/obj/item/clothing/under/pants/khaki = 5)
+					/obj/item/clothing/under/pants/khaki = 5,
+					/obj/item/clothing/suit/hooded/wintercoat/corpus/sec = 5)
 	premium = list(/obj/item/clothing/under/rank/security/navyblue = 5,
 					/obj/item/clothing/suit/security/officer = 5,
 					/obj/item/clothing/head/beret/sec/navyofficer = 5,
@@ -232,12 +233,9 @@
 					/obj/item/clothing/head/soft/black = 4,
 					/obj/item/clothing/shoes/sneakers/black = 4,
 					/obj/item/reagent_containers/rag = 4,
-					/obj/item/storage/box/beanbag = 1,
-					/obj/item/clothing/suit/armor/vest/alt = 1,
 					/obj/item/circuitboard/machine/dish_drive = 1,
 					/obj/item/clothing/glasses/sunglasses/reagent = 1,
-					/obj/item/clothing/neck/petcollar = 3,
-					/obj/item/storage/belt/bandolier = 1)
+					/obj/item/clothing/neck/petcollar = 3)
 	refill_canister = /obj/item/vending_refill/wardrobe/bar_wardrobe
 
 /obj/item/vending_refill/wardrobe/bar_wardrobe

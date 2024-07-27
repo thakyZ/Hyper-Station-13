@@ -197,7 +197,7 @@
 	var/static_power_used = 0
 	var/brightness = 8			// luminosity when on, also used in power calculation
 	var/bulb_power = 1			// basically the alpha of the emitted light source
-	var/bulb_colour = "#FFFFFF"	// befault colour of the light.
+	var/bulb_colour = "#ffefda"	// befault colour of the light.
 	var/status = LIGHT_OK		// LIGHT_OK, _EMPTY, _BURNED or _BROKEN
 	var/flickering = FALSE
 	var/light_type = /obj/item/light/tube		// the type of light item
@@ -214,14 +214,20 @@
 	var/nightshift_allowed = TRUE	//Set to FALSE to never let this light get switched to night mode.
 	var/nightshift_brightness = 8
 	var/nightshift_light_power = 0.45
-	var/nightshift_light_color = "#FFDDCC"
+	var/nightshift_light_color = "#dafcff"
 
 	var/emergency_mode = FALSE	// if true, the light is in emergency mode
 	var/no_emergency = FALSE	// if true, this light cannot ever have an emergency mode
-	var/bulb_emergency_brightness_mul = 0.25	// multiplier for this light's base brightness in emergency power mode
+	var/bulb_emergency_brightness_mul = 0.6	// multiplier for this light's base brightness in emergency power mode
 	var/bulb_emergency_colour = "#FF3232"	// determines the colour of the light while it's in emergency mode
 	var/bulb_emergency_pow_mul = 0.75	// the multiplier for determining the light's power in emergency mode
 	var/bulb_emergency_pow_min = 0.5	// the minimum value for the light's power in emergency mode
+
+	var/glow_layer = ABOVE_LIGHTING_LAYER	//The layer the glow effect is on
+	var/glow_plane = ABOVE_LIGHTING_PLANE	//The plane for the glow effect
+
+	var/obj/effect/light/lighteffect //light effect
+
 
 /obj/machinery/light/broken
 	status = LIGHT_BROKEN
@@ -242,6 +248,8 @@
 	icon_state = "bulb-broken"
 
 /obj/machinery/light/Move()
+	if(lighteffect)
+		lighteffect.loc = src.loc
 	if(status != LIGHT_BROKEN)
 		break_light_tube(1)
 	return ..()
@@ -285,6 +293,8 @@
 
 /obj/machinery/light/Destroy()
 	var/area/A = get_area(src)
+	if(lighteffect)
+		lighteffect.Del()
 	if(A)
 		on = FALSE
 //		A.update_lights()
@@ -292,24 +302,35 @@
 	return ..()
 
 /obj/machinery/light/update_icon()
+	if(!lighteffect) //dont have a light bloom, make it.
+		lighteffect = new/obj/effect/light/large
+		lighteffect.loc = src.loc
 	cut_overlays()
 	switch(status)		// set icon_states
 		if(LIGHT_OK)
 			var/area/A = get_area(src)
 			if(emergency_mode || (A && A.fire))
 				icon_state = "[base_state]_emergency"
+				lighteffect.alpha = 0
 			else
 				icon_state = "[base_state]"
 				if(on)
-					var/mutable_appearance/glowybit = mutable_appearance(overlayicon, base_state, ABOVE_LIGHTING_LAYER, ABOVE_LIGHTING_PLANE)
+					lighteffect.alpha = CLAMP(light_power*35, 5, 100)
+					lighteffect.color = light_color
+					var/mutable_appearance/glowybit = mutable_appearance(overlayicon, base_state, glow_layer, glow_plane)
 					glowybit.alpha = CLAMP(light_power*250, 30, 200)
 					add_overlay(glowybit)
 		if(LIGHT_EMPTY)
 			icon_state = "[base_state]-empty"
+			lighteffect.alpha = 0
 		if(LIGHT_BURNED)
 			icon_state = "[base_state]-burned"
+			lighteffect.alpha = 0
 		if(LIGHT_BROKEN)
 			icon_state = "[base_state]-broken"
+			lighteffect.alpha = 0
+	if(!on)
+		lighteffect.alpha = 0
 	return
 
 // update the icon_state and luminosity of the light depending on its state
@@ -819,9 +840,11 @@
 /obj/machinery/light/floor
 	name = "floor light"
 	icon = 'icons/obj/lighting.dmi'
-	base_state = "floor"		// base description and icon_state
+	base_state = "floor"
 	icon_state = "floor"
 	brightness = 4
-	layer = 2.5
+	layer = LOW_OBJ_LAYER
+	glow_layer = LOW_SIGIL_LAYER
+	glow_plane = GAME_PLANE
 	light_type = /obj/item/light/bulb
 	fitting = "bulb"

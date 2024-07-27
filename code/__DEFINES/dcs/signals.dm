@@ -191,7 +191,7 @@
 #define COMSIG_CLICK_CTRL_SHIFT "ctrl_shift_click"				//from base of atom/CtrlShiftClick(/mob)
 #define COMSIG_MOUSEDROP_ONTO "mousedrop_onto"					//from base of atom/MouseDrop(): (/atom/over, /mob/user)
 	#define COMPONENT_NO_MOUSEDROP 1
-#define COMSIG_MOUSEDROPPED_ONTO "mousedropped_onto"		
+#define COMSIG_MOUSEDROPPED_ONTO "mousedropped_onto"
 
 
 #define COMSIG_MICRO_PICKUP_FEET "micro_force_grabbed"			//From /datum/element/mob_holder/micro
@@ -376,6 +376,10 @@
 ///from base of /mob/living/can_track(): (mob/user)
 #define COMSIG_LIVING_CAN_TRACK "mob_cantrack"
 	#define COMPONENT_CANT_TRACK (1<<0)
+
+// /mob/living/silicon signals
+
+#define COMSIG_SILICON_MIND_ATTACHED "silicon_mind_attached" //from /mob/living/silicon/robot/mind_initialize(): (/mob/living/silicon)
 
 // /mob/living/carbon signals
 
@@ -701,6 +705,11 @@
 ///(obj/item/insertion_candidate, mob/user, silent) - returns bool
 #define COMSIG_TRY_STORAGE_CAN_INSERT "storage_can_equip"
 
+//from base of atom/movable/on_enter_storage(): (datum/component/storage/concrete/master_storage)
+#define COMSIG_STORAGE_ENTERED "storage_entered"
+//from base of atom/movable/on_exit_storage(): (datum/component/storage/concrete/master_storage)
+#define COMSIG_STORAGE_EXITED "storage_exited"
+
 // /datum/component/two_handed signals
 
 ///from base of datum/component/two_handed/proc/wield(mob/living/carbon/user): (/mob/user)
@@ -732,6 +741,9 @@
 ///from datum/action/cyborg_small_sprite and sends when a cyborg changes modules
 #define COMSIG_CYBORG_MODULE_CHANGE "cyborg_module_change"
 
+// /datum/element/ventcrawling signals
+#define COMSIG_HANDLE_VENTCRAWL "handle_ventcrawl"							//when atom with ventcrawling element attempts to ventcrawl
+#define COMSIG_CHECK_VENTCRAWL "check_ventcrawl"							//to check an atom's ventcrawling element tier (if applicable)
 
 /* Attack signals. They should share the returned flags, to standardize the attack chain. */
 /// tool_act -> pre_attack -> target.attackby (item.attack) -> afterattack

@@ -33,6 +33,13 @@ GLOBAL_LIST_INIT(sandstone_recipes, list ( \
 	new/datum/stack_recipe("sandstone tile", /obj/item/stack/tile/mineral/sandstone, 1, 4, 20), \
 	new/datum/stack_recipe("crimson tile", /obj/item/stack/tile/mineral/crimsonstone, 1, 4, 20), \
 	new/datum/stack_recipe("basalt tile", /obj/item/stack/tile/mineral/basaltstone, 1, 4, 20), \
+	new/datum/stack_recipe("running bond stone tile", /obj/item/stack/tile/mineral/running_bond_stone, 1, 4, 20), \
+	new/datum/stack_recipe("herringbone stone tile", /obj/item/stack/tile/mineral/herringbone_stone, 1, 4, 20), \
+	new/datum/stack_recipe("large stone tile", /obj/item/stack/tile/mineral/large_stone, 1, 4, 20), \
+	new/datum/stack_recipe("blueslate tile", /obj/item/stack/tile/mineral/blueslate, 1, 4, 20), \
+	new/datum/stack_recipe("rough sandstone tile", /obj/item/stack/tile/mineral/sandstone_rough, 1, 4, 20), \
+	new/datum/stack_recipe("concrete tile", /obj/item/stack/tile/mineral/concrete, 1, 4, 20), \
+
 	new/datum/stack_recipe("sandstone door", /obj/structure/mineral_door/sandstone, 10, one_per_turf = 1, on_floor = 1), \
 	new/datum/stack_recipe("aesthetic volcanic floor tile", /obj/item/stack/tile/basalt, 2, 2, 4, 20), \
 	new/datum/stack_recipe("Assistant Statue", /obj/structure/statue/sandstone/assistant, 5, one_per_turf = 1, on_floor = 1), \
@@ -110,7 +117,6 @@ GLOBAL_LIST_INIT(sandbag_recipes, list ( \
 	singular_name = "diamond"
 	sheettype = "diamond"
 	materials = list(MAT_DIAMOND=MINERAL_MATERIAL_AMOUNT)
-	novariants = TRUE
 	grind_results = list(/datum/reagent/carbon = 20)
 	point_value = 25
 	merge_type = /obj/item/stack/sheet/mineral/diamond
@@ -137,7 +143,6 @@ GLOBAL_LIST_INIT(diamond_recipes, list ( \
 	singular_name = "uranium sheet"
 	sheettype = "uranium"
 	materials = list(MAT_URANIUM=MINERAL_MATERIAL_AMOUNT)
-	novariants = TRUE
 	grind_results = list(/datum/reagent/uranium = 20)
 	point_value = 20
 	merge_type = /obj/item/stack/sheet/mineral/uranium
@@ -212,6 +217,7 @@ GLOBAL_LIST_INIT(plasma_recipes, list ( \
 
 GLOBAL_LIST_INIT(gold_recipes, list ( \
 	new/datum/stack_recipe("golden door", /obj/structure/mineral_door/gold, 10, one_per_turf = 1, on_floor = 1), \
+	new/datum/stack_recipe("throne", /obj/structure/chair/throne, 5, one_per_turf = 1, on_floor = 1), \
 	new/datum/stack_recipe("gold tile", /obj/item/stack/tile/mineral/gold, 1, 4, 20), \
 	new/datum/stack_recipe("HoS Statue", /obj/structure/statue/gold/hos, 5, one_per_turf = 1, on_floor = 1), \
 	new/datum/stack_recipe("HoP Statue", /obj/structure/statue/gold/hop, 5, one_per_turf = 1, on_floor = 1), \
@@ -264,7 +270,6 @@ GLOBAL_LIST_INIT(silver_recipes, list ( \
 	singular_name = "bananium sheet"
 	sheettype = "bananium"
 	materials = list(MAT_BANANIUM=MINERAL_MATERIAL_AMOUNT)
-	novariants = TRUE
 	grind_results = list(/datum/reagent/consumable/banana = 20)
 	point_value = 50
 	merge_type = /obj/item/stack/sheet/mineral/bananium

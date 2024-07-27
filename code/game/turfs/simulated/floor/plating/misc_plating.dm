@@ -194,7 +194,7 @@
 /turf/open/floor/plating/ice/smooth
 	icon_state = "smooth"
 	smooth = SMOOTH_MORE | SMOOTH_BORDER
-	canSmoothWith = list(/turf/open/floor/plating/ice/smooth, 
+	canSmoothWith = list(/turf/open/floor/plating/ice/smooth,
 	/turf/open/floor/plating/ice,
 	/turf/open/floor/plating/ice/colder)
 
@@ -240,3 +240,9 @@
 
 /turf/open/floor/plating/snowed/temperatre
 	temperature = 255.37
+
+//Layenia Tiles - Hyper
+/turf/open/floor/plating/layenia
+	icon_state = "plating"
+	initial_gas_mix = FROZEN_ATMOS
+	planetary_atmos = TRUE

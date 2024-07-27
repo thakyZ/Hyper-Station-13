@@ -250,6 +250,8 @@
 		if(istype(AM, /obj/item/shard))
 			AM.throw_impact(L)
 	L.Knockdown(100)
+	if(prob(1))
+		playsound(T, "hyperstation/sound/misc/ourtableitsbroken.ogg", 100, 0)
 	qdel(src)
 
 /obj/structure/table/glass/deconstruct(disassembled = TRUE, wrench_disassembly = 0)
@@ -276,7 +278,7 @@
  */
 /obj/structure/table/plasmaglass
 	name = "plasmaglass table"
-	desc = "A glasstable, but it's pink and more sturdy. What will Nanotrasen design next with plasma?"
+	desc = "A glass table, but it's pink and more sturdy. This is so last century."
 	icon = 'icons/obj/smooth_structures/plasmaglass_table.dmi'
 	icon_state = "plasmaglass_table"
 	climbable = TRUE

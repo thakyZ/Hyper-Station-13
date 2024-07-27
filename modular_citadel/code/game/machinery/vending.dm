@@ -6,6 +6,7 @@
 					/obj/item/pinpointer/crew = 2,
 					/obj/item/reagent_containers/medspray/sterilizine = 1,
 					/obj/item/stack/medical/gauze = 8,
+					/obj/item/reagent_containers/pill/ibuprofen = 5,
 					/obj/item/reagent_containers/pill/patch/styptic = 5,
 					/obj/item/reagent_containers/medspray/styptic = 2,
 					/obj/item/reagent_containers/pill/patch/silver_sulf = 5,
@@ -37,7 +38,7 @@
 /obj/machinery/vending/kink
 	name = "\improper KinkMate"
 	desc = "A vending machine for all your unmentionable desires."
-	icon = 'icons/obj/citvending.dmi'
+	icon = 'icons/obj/vending.dmi'
 	icon_state = "kink"
 	product_slogans = "Kinky!;Sexy!;Check me out, big boy!"
 	vend_reply = "Have fun, you shameless pervert!"
@@ -51,10 +52,15 @@
 				/obj/item/dildo/custom = 5,
 				/obj/item/reagent_containers/pill/penis_enlargement = 3,
 				/obj/item/reagent_containers/pill/breast_enlargement = 3,
+				/obj/item/reagent_containers/pill/butt_enlargement = 3,
 				/obj/item/clothing/gloves/latexsleeves = 3,
 				/obj/item/clothing/shoes/highheels = 3,
 				/obj/item/clothing/neck/stole = 2,
 				/obj/item/clothing/neck/stole/black = 2,
+				/obj/item/equipment/penis/ring = 5,
+				/obj/item/equipment/penis/ring/metal = 3,
+				/obj/item/equipment/penis/ring/fancy = 2,
+				/obj/item/equipment/penis/ring/limiter = 3,
 				/obj/item/clothing/under/polychromic/stripper = 3,
 				/obj/item/clothing/under/polychromic/bikini = 3,
 				/obj/item/clothing/under/polychromic/onepeice = 3,
@@ -69,6 +75,7 @@
 				/obj/item/electropack/vibrator = 2,
 				/obj/item/fleshlight = 2,
 				/obj/item/storage/box/portallight = 1,
+				/obj/item/storage/pill_bottle/lovedice = 5,
 				)
 	contraband = list(
 				/obj/item/clothing/under/gear_harness = 3,
@@ -94,7 +101,7 @@
 /obj/machinery/vending/sovietvend
 	name = "KomradeVendtink"
 	desc = "Rodina-mat' zovyot!"
-	icon = 'icons/obj/citvending.dmi'
+	icon = 'icons/obj/vending.dmi'
 	icon_state = "soviet"
 	vend_reply = "The fascist and capitalist svin'ya shall fall, komrade!"
 	product_slogans = "Quality worth waiting in line for!; Get Hammer and Sickled!; Sosvietsky soyuz above all!; With capitalist pigsky, you would have paid a fortunetink! ; Craftink in Motherland herself!"
@@ -127,7 +134,6 @@
 
 /obj/item/vending_refill/kink
 	machine_name 	= "KinkMate"
-	icon			= 'modular_citadel/icons/vending_restock.dmi'
 	icon_state 		= "refill_kink"
 
 /obj/item/vending_refill/soviet

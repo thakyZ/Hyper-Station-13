@@ -152,10 +152,10 @@
 		adjust_item_drop_location(O)
 
 
-/obj/machinery/smartfridge/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
+/obj/machinery/smartfridge/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, datum/tgui/master_ui = null, datum/tgui_state/state = GLOB.tgui_default_state)
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
-		ui = new(user, src, ui_key, "smartvend", name, 440, 550, master_ui, state)
+		ui = new(user, src, ui_key, "SmartVend", name, 440, 550, master_ui, state)
 		ui.set_autoupdate(FALSE)
 		ui.open()
 
@@ -449,8 +449,9 @@
 	initial_contents = list(
 		/obj/item/reagent_containers/pill/epinephrine = 12,
 		/obj/item/reagent_containers/pill/charcoal = 5,
+		/obj/item/reagent_containers/pill/ibuprofen = 5,
 		/obj/item/reagent_containers/glass/bottle/epinephrine = 1,
-		/obj/item/reagent_containers/glass/bottle/charcoal = 1)
+		/obj/item/reagent_containers/glass/bottle/charcoal = 1,)
 
 // ----------------------------
 // Virology Medical Smartfridge

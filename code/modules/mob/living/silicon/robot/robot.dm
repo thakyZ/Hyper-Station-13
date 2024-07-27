@@ -142,6 +142,7 @@
 		builtInCamera.internal_light = FALSE
 		if(wires.is_cut(WIRE_CAMERA))
 			builtInCamera.status = 0
+
 	module = new /obj/item/robot_module(src)
 	module.rebuild_modules()
 	update_icons()
@@ -164,6 +165,13 @@
 		mmi.brainmob.container = mmi
 
 	updatename()
+
+	//Name updated, can build PDA data now. Checks for if AI is meant to control.
+	if(!builtInPDA && !shell)
+		builtInPDA = new/obj/item/pda/ai(src)
+		builtInPDA.owner = name
+		builtInPDA.ownjob = "Station Cyborg"
+		builtInPDA.update_label()
 
 	equippable_hats = typecacheof(equippable_hats)
 
@@ -654,10 +662,14 @@
 	if(disabler)
 		add_overlay("disabler")//ditto
 
-	if(sleeper_g && module.sleeper_overlay)
-		add_overlay("[module.sleeper_overlay]_g[sleeper_nv ? "_nv" : ""]")
-	if(sleeper_r && module.sleeper_overlay)
-		add_overlay("[module.sleeper_overlay]_r[sleeper_nv ? "_nv" : ""]")
+	if(module.sleeper_overlay)
+		var/sleeper_overlay_state = ""
+		switch(sleeper_state)
+			if(BORGBELLY_NONE) sleeper_overlay_state = ""
+			if(BORGBELLY_GREEN) sleeper_overlay_state = "_g"
+			if(BORGBELLY_RED) sleeper_overlay_state = "_r"
+		add_overlay("[module.sleeper_overlay][sleeper_overlay_state]")
+
 	if(module.dogborg == TRUE)
 		if(resting)
 			cut_overlays()
@@ -927,7 +939,7 @@
 	if(stat || lockcharge || low_power_mode)
 		to_chat(src, "<span class='warning'>You can't do that right now!</span>")
 		return FALSE
-	if(be_close && !in_range(M, src))
+	if(be_close && !in_range(M, src) && M != builtInPDA) //Makes sure AIs in shells can always use their PDA
 		to_chat(src, "<span class='warning'>You are too far away!</span>")
 		return FALSE
 	return TRUE
@@ -1137,6 +1149,10 @@
 	mainframe.connected_robots |= src
 	lawupdate = TRUE
 	lawsync()
+
+	//Ensures AI shells have the same PDA as their mainframe AI
+	builtInPDA = AI.builtInPDA
+
 	if(radio && AI.radio) //AI keeps all channels, including Syndie if it is a Traitor
 		if(AI.radio.syndie)
 			radio.make_syndie()
